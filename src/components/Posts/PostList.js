@@ -8,7 +8,7 @@ function PostList(props) {
         <div className="row">
           {props.posts.map(post => (
             <div className="col s6 m4 l3" key={post.id}>
-              <div className="card">
+              <div className="card hoverable">
                 <div className="card-image">
                   <img src={post.imageURL} />
                 </div>

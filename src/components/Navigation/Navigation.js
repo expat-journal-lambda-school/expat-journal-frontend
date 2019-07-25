@@ -23,16 +23,28 @@ function Navigation(props) {
             <li>
               <Link to="/posts">Posts</Link>
             </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/register">Sign Up</Link>
+            </li>
           </ul>
         </div>
       </nav>
 
       <ul className="sidenav" id="mobile-nav">
         <li>
-          <Link to="/">Getting started</Link>
+          <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/">Components</Link>
+          <Link to="/posts">Posts</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+        <li>
+          <Link to="/register">Sign Up</Link>
         </li>
       </ul>
     </>
