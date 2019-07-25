@@ -7,25 +7,27 @@ function Navigation(props) {
 
   return (
     <>
-      <nav class="navigation">
+      <nav className="navigation">
         <div className="nav-wrapper">
-          <Link className="brand-logo">Expat Journal</Link>
-          <a href="#!" data-target="mobile-nav" class="sidenav-trigger">
-            <i class="material-icons">menu</i>
+          <Link to="/" className="brand-logo">
+            Expat Journal
+          </Link>
+          <a href="#!" data-target="mobile-nav" className="sidenav-trigger">
+            <i className="material-icons">menu</i>
           </a>
 
-          <ul class="hide-on-med-and-down right">
+          <ul className="hide-on-med-and-down right">
             <li>
-              <Link to="/">Getting started</Link>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/">Components</Link>
+              <Link to="/posts">Posts</Link>
             </li>
           </ul>
         </div>
       </nav>
 
-      <ul class="sidenav" id="mobile-nav">
+      <ul className="sidenav" id="mobile-nav">
         <li>
           <Link to="/">Getting started</Link>
         </li>

@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
+import { Route, Switch } from 'react-router-dom'
 
 // import components
 import Navigation from './Navigation/Navigation'
+import Home from './Home/Home'
+import PostList from './Posts/PostList'
+import Post from './Posts/Post'
 
 // import materialize css
 import M from 'materialize-css'
@@ -17,6 +21,9 @@ export default class App extends Component {
     return (
       <div>
         <Navigation />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/posts" component={PostList} />
+        <Route exact path="/posts/:id" component={Post} />
       </div>
     )
   }
