@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">THis is the header</header>
-    </div>
-  )
+// import components
+import Navigation from './Navigation/Navigation'
+
+// import materialize css
+import M from 'materialize-css'
+import 'materialize-css/dist/css/materialize.min.css'
+
+export default class App extends Component {
+  componentDidMount() {
+    // Auto initialize materialize
+    M.AutoInit()
+  }
+
+  render() {
+    return (
+      <div>
+        <Navigation />
+      </div>
+    )
+  }
 }
-
-export default App
