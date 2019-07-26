@@ -13,6 +13,7 @@ function PostList(props) {
                 <div className="card-image">
                   <img
                     src={`https://picsum.photos/id/${randomImgId}/500/500`}
+                    alt={post.title}
                   />
                   <span className="card-title">{post.title}</span>
                 </div>

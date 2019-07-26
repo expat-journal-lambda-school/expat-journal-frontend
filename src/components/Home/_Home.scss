@@ -1,6 +1,5 @@
 .home {
-  height: 100vh;
-  margin-top: -64px;
+  @include vh-adjust;
 
   .home-content-wrapper {
     display: flex;

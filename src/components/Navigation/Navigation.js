@@ -6,7 +6,7 @@ function Navigation(props) {
   const onClick = e => {}
 
   return (
-    <div class="navbar-fixed">
+    <div className="navbar-fixed">
       <nav className="navigation">
         <div className="nav-wrapper">
           <Link to="/" className="brand-logo">

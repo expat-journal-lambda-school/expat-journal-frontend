@@ -1,6 +1,5 @@
 .login {
-  height: 100vh;
-  margin-top: -64px;
+  @include vh-adjust;
 
   .login-content-wrapper {
     display: flex;
