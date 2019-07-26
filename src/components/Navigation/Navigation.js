@@ -6,7 +6,7 @@ function Navigation(props) {
   const onClick = e => {}
 
   return (
-    <>
+    <div class="navbar-fixed">
       <nav className="navigation">
         <div className="nav-wrapper">
           <Link to="/" className="brand-logo">
@@ -47,7 +47,7 @@ function Navigation(props) {
           <Link to="/register">Sign Up</Link>
         </li>
       </ul>
-    </>
+    </div>
   )
 }
 

@@ -10,6 +10,7 @@ import PostList from './Posts/PostList'
 import Post from './Posts/Post'
 import Login from './Authorization/Login'
 import Register from './Authorization/Register'
+import Footer from './Footer/Footer'
 
 // import materialize css
 import M from 'materialize-css'
@@ -40,6 +41,7 @@ class App extends Component {
           path="/register"
           render={props => <Register {...props} />}
         />
+        <Footer />
       </div>
     )
   }
