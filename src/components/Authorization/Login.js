@@ -13,7 +13,17 @@ class Login extends Component {
     e.preventDefault()
 
     const { username, password } = this.state
-    this.props.login(username, password)
+    this.props
+      .login(username, password)
+      .then(() => {
+        if (this.props.successMessage) {
+          this.setState({
+            username: '',
+            password: ''
+          })
+        }
+      })
+      .catch(err => console.log(err))
   }
 
   onChange = e => {
@@ -23,31 +33,35 @@ class Login extends Component {
   }
 
   render() {
+    console.log(this.props)
     const { username, password } = this.state
-
-    console.log(this.state)
+    const { errorMessage, successMessage } = this.props
 
     return (
-      <div className="login">
-        <div className="login-content-wrapper">
-          <h2>Login</h2>
-          <form onSubmit={e => this.onSubmit(e)}>
-            <TextInput
-              onChange={this.onChange}
-              type="text"
-              label="Username"
-              name="username"
-              value={username}
-            />
-            <TextInput
-              onChange={this.onChange}
-              type="password"
-              label="Password"
-              name="password"
-              value={password}
-            />
-            <Button type="submit">Login</Button>
-          </form>
+      <div className="authorization">
+        <div className="content-wrapper">
+          <div className="content">
+            <h2>Login</h2>
+            <form onSubmit={e => this.onSubmit(e)}>
+              {errorMessage && <p className="err">{errorMessage}</p>}
+              {successMessage && <p className="success">{successMessage}</p>}
+              <TextInput
+                onChange={this.onChange}
+                type="text"
+                label="Username"
+                name="username"
+                value={username}
+              />
+              <TextInput
+                onChange={this.onChange}
+                type="password"
+                label="Password"
+                name="password"
+                value={password}
+              />
+              <Button type="submit">Login</Button>
+            </form>
+          </div>
         </div>
       </div>
     )
@@ -56,7 +70,8 @@ class Login extends Component {
 
 const mapStateToProps = state => ({
   isLoading: state.authReducer.isLoading,
-  errorMessage: state.authReducer.authErrMsg
+  errorMessage: state.authReducer.loginErr,
+  successMessage: state.authReducer.loginSuccess
 })
 
 const mapDispatchToProps = {

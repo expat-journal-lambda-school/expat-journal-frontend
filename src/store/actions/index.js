@@ -45,6 +45,8 @@ export const REGISTER_FAILED = 'REGISTER_FAILED'
 // ACTION CREATORS ====================================|
 //=====================================================|
 
+// POST ACTION CREATORS ===============================|
+//=====================================================|
 // getPosts() - MVP - GET Request
 //-----------------------------------------------------|
 export const getPosts = () => {
@@ -64,28 +66,35 @@ export const getPosts = () => {
   }
 }
 
+// AUTH ACTION CREATORS ===============================|
+//=====================================================|
 // login() - MVP - GET Request
 //-----------------------------------------------------|
 export function login(username, password) {
   return dispatch => {
     dispatch({ type: LOGIN_START })
 
-    console.log(username, password)
-
-    axios
+    return axios
       .post('https://expat-journal-backend.herokuapp.com/api/auth/login/', {
         username,
         password
       })
       .then(res => {
-        console.log(res)
         localStorage.setItem('token', res.data.token)
-        dispatch({ type: LOGIN_SUCCESS })
+
+        const payload = res.data.username
+
+        dispatch({ type: LOGIN_SUCCESS, payload })
       })
       .catch(err => {
-        const payload = err.response ? err.response.data : err
-        console.log(payload)
-        // dispatch({ type: LOGIN_FAILED, payload })
+        console.log(err.response)
+        let payload = err
+        if (Object.keys(err.response.data).length) {
+          payload = err.response.data.errorMessage
+        } else {
+          payload = 'Please review your login information'
+        }
+        dispatch({ type: LOGIN_FAILED, payload })
       })
   }
 }
@@ -94,22 +103,26 @@ export function login(username, password) {
 //-----------------------------------------------------|
 export function register(username, password) {
   return dispatch => {
-    dispatch({ type: LOGIN_START })
+    dispatch({ type: REGISTER_START })
 
-    axios
+    return axios
       .post('https://expat-journal-backend.herokuapp.com/api/auth/register', {
         username: username,
         password: password
       })
       .then(res => {
-        console.log(res)
-        // localStorage.setItem('token', res.data.payload)
-        // dispatch({ type: LOGIN_SUCCESS, payload: res.data.payload })
+        localStorage.setItem('token', res.data.token)
+
+        const payload = {
+          username: res.data.username,
+          successMsg: res.statusText
+        }
+        dispatch({ type: REGISTER_SUCCESS, payload })
       })
       .catch(err => {
         const payload = err.response ? err.response.data : err
         console.log(payload)
-        // dispatch({ type: LOGIN_FAILED, payload })
+        dispatch({ type: REGISTER_FAILED, payload })
       })
   }
 }

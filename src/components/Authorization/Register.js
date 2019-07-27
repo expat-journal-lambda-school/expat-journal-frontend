@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { register } from '../../store/actions'
 import { TextInput, Button } from 'react-materialize'
 
-export default class Login extends Component {
+class Register extends Component {
   state = {
     username: '',
     password: ''
@@ -9,7 +11,16 @@ export default class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-    console.log('form submitted')
+    const { username, password } = this.state
+    this.props
+      .register(username, password)
+      .then(() => {
+        this.setState({
+          username: '',
+          password: ''
+        })
+      })
+      .catch(err => console.log(err))
   }
 
   onChange = e => {
@@ -20,12 +31,17 @@ export default class Login extends Component {
 
   render() {
     const { username, password } = this.state
+    const { errorMessage, successMsg } = this.props
 
     return (
-      <div className="login">
-        <div className="login-content-wrapper">
+      <div className="authorization">
+        <div className="content-wrapper">
           <h2>Sign Up</h2>
           <form onSubmit={e => this.onSubmit(e)}>
+            {errorMessage && <p className="err">{errorMessage.detail}</p>}
+
+            {successMsg && <p className="success">Successfully Registered</p>}
+
             <TextInput
               onChange={this.onChange}
               type="text"
@@ -47,3 +63,18 @@ export default class Login extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  isLoading: state.authReducer.isLoading,
+  errorMessage: state.authReducer.authErrMsg,
+  successMsg: state.authReducer.successMsg
+})
+
+const mapDispatchToProps = {
+  register
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Register)
