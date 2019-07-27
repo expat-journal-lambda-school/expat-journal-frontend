@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getPosts } from '../store/actions'
+import { getPosts, checkLoggedIn } from '../store/actions'
 
 // import components
 import Navigation from './Navigation/Navigation'
@@ -22,6 +22,7 @@ class App extends Component {
     M.AutoInit()
 
     this.props.getPosts()
+    this.props.checkLoggedIn()
   }
 
   render() {
@@ -52,7 +53,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  getPosts
+  getPosts,
+  checkLoggedIn
 }
 
 export default connect(

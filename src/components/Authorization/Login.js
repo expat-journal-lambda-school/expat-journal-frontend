@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { login } from '../../store/actions'
+import { login, clearAuthMsgs } from '../../store/actions'
 import { TextInput, Button } from 'react-materialize'
 
 class Login extends Component {
@@ -24,6 +24,10 @@ class Login extends Component {
         }
       })
       .catch(err => console.log(err))
+
+    setTimeout(() => {
+      this.props.clearAuthMsgs()
+    }, 5000)
   }
 
   onChange = e => {
@@ -75,7 +79,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  login
+  login,
+  clearAuthMsgs
 }
 
 export default connect(

@@ -41,9 +41,34 @@ export const REGISTER_START = 'REGISTER_START'
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 export const REGISTER_FAILED = 'REGISTER_FAILED'
 
+// CLEAR_AUTH_MESSAGES
+//-----------------------------------------------------|
+export const CLEAR_AUTH_MESSAGES = 'CLEAR_MESSAGES'
+
+// CHECK_LOGGED_IN
+//-----------------------------------------------------|
+export const CHECK_LOGGED_IN = 'CHECK_LOGGED_IN'
+
 //=====================================================|
 // ACTION CREATORS ====================================|
 //=====================================================|
+
+// CHECK IF LOGGED IN ACTION CREATOR ==================|
+//=====================================================|
+// checkLoggedIn()
+//-----------------------------------------------------|
+export const checkLoggedIn = () => {
+  let payload
+  if (localStorage.getItem('token') === null) {
+    payload = false
+  } else {
+    payload = true
+  }
+  return {
+    type: CHECK_LOGGED_IN,
+    payload: payload
+  }
+}
 
 // POST ACTION CREATORS ===============================|
 //=====================================================|
@@ -124,6 +149,14 @@ export function register(username, password) {
         console.log(payload)
         dispatch({ type: REGISTER_FAILED, payload })
       })
+  }
+}
+
+// clearAuthMsgs() - clear login/logout error/success msgs
+//-----------------------------------------------------|
+export function clearAuthMsgs() {
+  return {
+    type: CLEAR_AUTH_MESSAGES
   }
 }
 

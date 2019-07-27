@@ -5,7 +5,9 @@ import {
   LOGOUT,
   REGISTER_START,
   REGISTER_SUCCESS,
-  REGISTER_FAILED
+  REGISTER_FAILED,
+  CLEAR_AUTH_MESSAGES,
+  CHECK_LOGGED_IN
 } from '../actions'
 
 const initialState = {
@@ -48,8 +50,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         loginErr: action.payload,
-        loginSuccess: null,
-        isLoggedIn: false
+        loginSuccess: null
       }
     }
     // LOGOUT ------------------------------|
@@ -66,7 +67,8 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        authErrMsg: null,
+        regErr: null,
+        regSuccess: null,
         successMsg: null
       }
     }
@@ -74,8 +76,8 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        authErrMsg: null,
-        successMsg: action.payload.successMsg,
+        regErr: null,
+        regSuccess: action.payload.successMsg,
         isLoggedIn: true,
         username: action.payload.username
       }
@@ -84,9 +86,25 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        authErrMsg: action.payload,
-        successMsg: null,
-        isLoggedIn: false
+        regErr: action.payload,
+        regSuccess: null
+      }
+    }
+    // CLEAR AUTH MESSAGES -----------------|
+    case CLEAR_AUTH_MESSAGES: {
+      return {
+        ...state,
+        regErr: null,
+        regSuccess: null,
+        loginErr: null,
+        loginSuccess: null
+      }
+    }
+    // CHECK IF LOGGED IN ------------------|
+    case CHECK_LOGGED_IN: {
+      return {
+        ...state,
+        isLoggedIn: action.payload
       }
     }
     default:

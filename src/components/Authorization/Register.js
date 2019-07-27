@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { register } from '../../store/actions'
+import { register, clearAuthMsgs } from '../../store/actions'
 import { TextInput, Button } from 'react-materialize'
 
 class Register extends Component {
@@ -21,6 +21,10 @@ class Register extends Component {
         })
       })
       .catch(err => console.log(err))
+
+    setTimeout(() => {
+      this.props.clearAuthMsgs()
+    }, 5000)
   }
 
   onChange = e => {
@@ -36,28 +40,30 @@ class Register extends Component {
     return (
       <div className="authorization">
         <div className="content-wrapper">
-          <h2>Sign Up</h2>
-          <form onSubmit={e => this.onSubmit(e)}>
-            {errorMessage && <p className="err">{errorMessage.detail}</p>}
+          <div className="content">
+            <h2>Sign Up</h2>
+            <form onSubmit={e => this.onSubmit(e)}>
+              {errorMessage && <p className="err">{errorMessage.detail}</p>}
 
-            {successMsg && <p className="success">Successfully Registered</p>}
+              {successMsg && <p className="success">Successfully Registered</p>}
 
-            <TextInput
-              onChange={this.onChange}
-              type="text"
-              label="Username"
-              name="username"
-              value={username}
-            />
-            <TextInput
-              onChange={this.onChange}
-              type="password"
-              label="Password"
-              name="password"
-              value={password}
-            />
-            <Button type="submit">Register</Button>
-          </form>
+              <TextInput
+                onChange={this.onChange}
+                type="text"
+                label="Username"
+                name="username"
+                value={username}
+              />
+              <TextInput
+                onChange={this.onChange}
+                type="password"
+                label="Password"
+                name="password"
+                value={password}
+              />
+              <Button type="submit">Register</Button>
+            </form>
+          </div>
         </div>
       </div>
     )
@@ -66,12 +72,13 @@ class Register extends Component {
 
 const mapStateToProps = state => ({
   isLoading: state.authReducer.isLoading,
-  errorMessage: state.authReducer.authErrMsg,
-  successMsg: state.authReducer.successMsg
+  errorMessage: state.authReducer.regErr,
+  successMsg: state.authReducer.regSuccess
 })
 
 const mapDispatchToProps = {
-  register
+  register,
+  clearAuthMsgs
 }
 
 export default connect(
