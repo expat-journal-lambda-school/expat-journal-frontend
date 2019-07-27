@@ -1,6 +1,20 @@
 import React from 'react'
 
 function PostList(props) {
+  // Break the list of items into chunks
+  function chunk(arr, len) {
+    let chunks = [],
+      i = 0,
+      n = arr.length
+
+    while (i < n) {
+      chunks.push(arr.slice(i, (i += len)))
+    }
+    console.log(chunks)
+  }
+
+  console.log(chunk(props.posts, 30))
+
   return (
     <div className="post-list">
       <div className="row">

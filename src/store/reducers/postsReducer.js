@@ -7,12 +7,14 @@ import {
 const initialState = {
   posts: [],
   isLoading: false,
-  errorMessage: null,
-  isLoggedIn: false
+  errorMessage: null
 }
 
 export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
+    // POSTS ===============================|
+    // =====================================|
+    // GET_POSTS ---------------------------|
     case GET_POSTS_START: {
       return {
         ...state,

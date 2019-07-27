@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { login } from '../../store/actions'
 import { TextInput, Button } from 'react-materialize'
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     username: '',
     password: ''
@@ -9,7 +11,9 @@ export default class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-    console.log('form submitted')
+
+    const { username, password } = this.state
+    this.props.login(username, password)
   }
 
   onChange = e => {
@@ -20,6 +24,8 @@ export default class Login extends Component {
 
   render() {
     const { username, password } = this.state
+
+    console.log(this.state)
 
     return (
       <div className="login">
@@ -47,3 +53,17 @@ export default class Login extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  isLoading: state.authReducer.isLoading,
+  errorMessage: state.authReducer.authErrMsg
+})
+
+const mapDispatchToProps = {
+  login
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login)
