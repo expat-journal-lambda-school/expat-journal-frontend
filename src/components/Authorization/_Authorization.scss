@@ -1,0 +1,32 @@
+.authorization {
+  @include vh-adjust;
+
+  .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+
+    .content {
+      width: 450px;
+    }
+  }
+}
+
+.err {
+  background: #F67886;
+}
+
+.success {
+  background: #7AB882;
+}
+
+.success,
+.err {
+  font-size: 1.2rem;
+  padding: .5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-radius: 5px;
+}

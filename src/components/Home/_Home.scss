@@ -1,0 +1,25 @@
+.home {
+  @include vh-adjust;
+
+  .home-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  .home-cta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .btn-large {
+      margin: 1rem;
+    }
+  }
+}

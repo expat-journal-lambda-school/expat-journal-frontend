@@ -1,0 +1,11 @@
+.navigation {
+  background: #fff;
+  color: #333;
+  padding: 0 2rem;
+
+  .brand-logo,
+  ul>li>a,
+  .sidenav-trigger {
+    color: inherit;
+  }
+}
