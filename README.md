@@ -7,6 +7,7 @@
 **Expat Journal** is a targeted CRUD application that allows **expatriates** a platform from which they can share their adventures around the globe.
 
 [Expat Journal Marketing Site](https://github.com/expat-journal-lambda-school/expat-journal-marketing-site)
+<br />
 [Expat Journal Back End](https://github.com/expat-journal-lambda-school/expat-journal-backend)
 
 ## Screenshots
