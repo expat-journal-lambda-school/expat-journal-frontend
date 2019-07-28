@@ -37,10 +37,10 @@ yarn start
 
 ### Team
 
-- **Andrew Speer** - UI Developer - Marketing Site
-- **Ray Lomeli** - UI Developer - Marketing Site
-- **Tyler Turnipseed** - Front End Architect
-- **Joe Alfaro** - Back End Architect
+- [**Andrew Speer** - UI Developer - Marketing Site](https://github.com/nottolivc)
+- [**Ray Lomeli** - UI Developer - Marketing Site](https://github.com/orgs/expat-journal-lambda-school/people/rlom96)
+- [**Tyler Turnipseed** - Front End Architect](https://github.com/techturnip)
+- [**Joe Alfaro** - Back End Architect](https://github.com/Joe-Alfaro)
 
 #### Anything else that seems useful
 
