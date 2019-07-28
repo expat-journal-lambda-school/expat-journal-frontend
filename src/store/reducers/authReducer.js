@@ -11,6 +11,7 @@ import {
 } from '../actions'
 
 const initialState = {
+  id: '',
   username: '',
   isLoading: false,
   regErr: null,
@@ -42,7 +43,8 @@ export const authReducer = (state = initialState, action) => {
         loginErr: null,
         loginSuccess: 'Login Success!',
         isLoggedIn: true,
-        username: action.payload
+        username: action.payload.username,
+        id: action.payload.id
       }
     }
     case LOGIN_FAILED: {
@@ -56,6 +58,8 @@ export const authReducer = (state = initialState, action) => {
     // LOGOUT ------------------------------|
     case LOGOUT: {
       localStorage.removeItem('token')
+      localStorage.removeItem('id')
+      localStorage.removeItem('username')
 
       return {
         ...state,

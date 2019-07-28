@@ -4,14 +4,11 @@ import { logout } from '../../store/actions'
 import { withRouter, Link } from 'react-router-dom'
 
 function Navigation(props) {
-  console.log(props)
-
   // Handle active class
   const onClick = e => {
     e.preventDefault()
 
     const target = e.target.innerHTML
-    console.log(target)
 
     if (target === 'Logout') {
       props.logout()
@@ -40,10 +37,10 @@ function Navigation(props) {
             {props.isLoggedIn ? (
               <>
                 <li>
-                  <Link to="/login">Dashboard</Link>
+                  <Link to="/dashboard">Dashboard</Link>
                 </li>
                 <li>
-                  <a href="#" onClick={onClick}>
+                  <a href="#!" onClick={onClick}>
                     Logout
                   </a>
                 </li>

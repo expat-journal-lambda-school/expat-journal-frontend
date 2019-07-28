@@ -105,9 +105,15 @@ export function login(username, password) {
         password
       })
       .then(res => {
+        console.log(res)
         localStorage.setItem('token', res.data.token)
+        localStorage.setItem('username', res.data.username)
+        localStorage.setItem('id', res.data.id)
 
-        const payload = res.data.username
+        const payload = {
+          id: res.data.id,
+          username: res.data.username
+        }
 
         dispatch({ type: LOGIN_SUCCESS, payload })
       })

@@ -22,6 +22,8 @@ class Login extends Component {
             password: ''
           })
         }
+
+        this.props.history.push('/dashboard')
       })
       .catch(err => console.log(err))
 
@@ -37,7 +39,6 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { username, password } = this.state
     const { errorMessage, successMessage } = this.props
 
