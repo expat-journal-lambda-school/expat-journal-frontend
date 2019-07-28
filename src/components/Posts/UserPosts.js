@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from 'react-materialize'
 
 function UserPosts(props) {
   console.log(props)
@@ -32,6 +33,9 @@ function UserPosts(props) {
                     alt={post.title}
                   />
                   <span className="card-title">{post.title}</span>
+                  <Button className="btn-floating halfway-fab waves-effect waves-light teal lighten-1">
+                    <i className="material-icons">edit</i>
+                  </Button>
                 </div>
                 <div className="card-content">
                   <p>

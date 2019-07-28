@@ -12,8 +12,26 @@
     padding: 64px 1rem 0;
     background: white;
 
+    @media only screen and (max-width: 1350px) {
+      width: 200px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      width: 150px;
+    }
+
     .sidebar-title {
       margin-bottom: 2rem;
+
+      h3 {
+        @media only screen and (max-width: 1350px) {
+          font-size: 1.5rem;
+        }
+
+        @media only screen and (max-width: 600px) {
+          font-size: 1.2rem;
+        }
+      }
     }
 
     .sidebar-actions {
@@ -27,5 +45,13 @@
   .dashboard-posts {
     padding-left: 400px;
     width: 100%;
+
+    @media only screen and (max-width: 1350px) {
+      padding-left: 200px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      padding-left: 150px;
+    }
   }
 }
