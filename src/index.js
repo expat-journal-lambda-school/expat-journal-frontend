@@ -17,6 +17,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 
 // Redux Middleware
 import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 
 // Reducer
 import rootReducer from './store/reducers'
@@ -24,7 +25,7 @@ import rootReducer from './store/reducers'
 const store = createStore(
   rootReducer,
   compose(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, logger),
     window.__REDUX_DEVTOOLS_EXTENSION__
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
       : f => f

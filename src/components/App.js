@@ -10,7 +10,9 @@ import PostList from './Posts/PostList'
 import Post from './Posts/Post'
 import Login from './Authorization/Login'
 import Register from './Authorization/Register'
+import Dashboard from './Dashboard/Dashboard'
 import Footer from './Footer/Footer'
+import PrivateRoute from './PrivateRoute/PrivateRoute'
 
 // import materialize css
 import M from 'materialize-css'
@@ -42,6 +44,7 @@ class App extends Component {
           path="/register"
           render={props => <Register {...props} />}
         />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <Footer />
       </div>
     )
