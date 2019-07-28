@@ -37,6 +37,7 @@ export const authReducer = (state = initialState, action) => {
       }
     }
     case LOGIN_SUCCESS: {
+      console.log(action.payload)
       return {
         ...state,
         isLoading: false,
@@ -63,6 +64,8 @@ export const authReducer = (state = initialState, action) => {
 
       return {
         ...state,
+        username: '',
+        id: '',
         isLoggedIn: false
       }
     }
@@ -83,7 +86,8 @@ export const authReducer = (state = initialState, action) => {
         regErr: null,
         regSuccess: action.payload.successMsg,
         isLoggedIn: true,
-        username: action.payload.username
+        username: action.payload.username,
+        id: action.payload.id
       }
     }
     case REGISTER_FAILED: {
@@ -106,9 +110,12 @@ export const authReducer = (state = initialState, action) => {
     }
     // CHECK IF LOGGED IN ------------------|
     case CHECK_LOGGED_IN: {
+      const { isLoggedIn, username, id } = action.payload
       return {
         ...state,
-        isLoggedIn: action.payload
+        username,
+        id,
+        isLoggedIn
       }
     }
     default:

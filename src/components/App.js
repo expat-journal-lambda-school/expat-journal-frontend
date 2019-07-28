@@ -23,7 +23,10 @@ class App extends Component {
     // Auto initialize materialize
     M.AutoInit()
 
+    // Load in the Posts
     this.props.getPosts()
+
+    // Check localStorage for info, if present, toggles isLoggedIn state
     this.props.checkLoggedIn()
   }
 
@@ -44,7 +47,7 @@ class App extends Component {
           path="/register"
           render={props => <Register {...props} />}
         />
-        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute path="/dashboard" component={Dashboard} />
         <Footer />
       </div>
     )
