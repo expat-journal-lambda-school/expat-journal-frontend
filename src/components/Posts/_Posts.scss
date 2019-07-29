@@ -59,6 +59,11 @@
     flex-wrap: wrap;
     justify-content: space-around;
 
+    .no-posts {
+      display: flex;
+      flex-direction: column;
+    }
+
     .card {
       margin: 1rem;
       cursor: pointer;
@@ -104,4 +109,21 @@
       }
     }
   }
+}
+
+div {
+  .modal {
+    .modal-footer {
+      .btn {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
+
+#preloader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10rem;
 }

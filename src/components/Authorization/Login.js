@@ -22,8 +22,9 @@ class Login extends Component {
             password: ''
           })
         }
-
-        this.props.history.push('/dashboard')
+        setTimeout(() => {
+          this.props.history.push('/dashboard')
+        }, 1000)
       })
       .catch(err => console.log(err))
 

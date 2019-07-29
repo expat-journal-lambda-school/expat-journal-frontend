@@ -23,11 +23,16 @@ class App extends Component {
     // Auto initialize materialize
     M.AutoInit()
 
+    // Check localStorage for info, if present, toggles isLoggedIn state
+    if (localStorage.getItem('token') !== null) {
+      const token = localStorage.getItem('token')
+      this.props.checkLoggedIn(token)
+    } else {
+      this.props.checkLoggedIn(null)
+    }
+
     // Load in the Posts
     this.props.getPosts()
-
-    // Check localStorage for info, if present, toggles isLoggedIn state
-    this.props.checkLoggedIn()
   }
 
   render() {

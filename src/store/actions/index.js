@@ -12,9 +12,10 @@ export const GET_POSTS_FAILED = 'GET_POSTS_FAILED'
 
 // GET_USER_POSTS
 //-----------------------------------------------------|
-export const GET_USER_POSTS_START = 'GET_USER_POSTS_START'
-export const GET_USER_POSTS_SUCCESS = 'GET_USER_POSTS_SUCCESS'
-export const GET_USER_POSTS_FAILED = 'GET_USER_POSTS_FAILED'
+export const GET_USER_POSTS = 'GET_USER_POSTS'
+// export const GET_USER_POSTS_START = 'GET_USER_POSTS_START'
+// export const GET_USER_POSTS_SUCCESS = 'GET_USER_POSTS_SUCCESS'
+// export const GET_USER_POSTS_FAILED = 'GET_USER_POSTS_FAILED'
 
 // ADD_POST
 //-----------------------------------------------------|
@@ -53,7 +54,9 @@ export const CLEAR_AUTH_MESSAGES = 'CLEAR_MESSAGES'
 
 // CHECK_LOGGED_IN
 //-----------------------------------------------------|
-export const CHECK_LOGGED_IN = 'CHECK_LOGGED_IN'
+export const CHECK_LOGGED_IN_START = 'CHECK_LOGGED_IN_START'
+export const CHECK_LOGGED_IN_SUCCESS = 'CHECK_LOGGED_IN_SUCCESS'
+export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED'
 
 //=====================================================|
 // ACTION CREATORS ====================================|
@@ -63,20 +66,36 @@ export const CHECK_LOGGED_IN = 'CHECK_LOGGED_IN'
 //=====================================================|
 // checkLoggedIn()
 //-----------------------------------------------------|
-export const checkLoggedIn = () => {
-  let payload
-  if (localStorage.getItem('token') === null) {
-    payload = { isLoggedIn: false, username: '' }
-  } else {
-    payload = {
-      isLoggedIn: true,
-      username: localStorage.getItem('username'),
-      id: localStorage.getItem('id')
+export const checkLoggedIn = token => {
+  return dispatch => {
+    if (token === null) {
+      console.log('CHECK_LOGGED_IN_FAILED: NO TOKEN')
+      return dispatch({
+        type: CHECK_LOGGED_IN_FAILED,
+        payload: 'Not logged in.'
+      })
+    } else {
+      dispatch({ type: CHECK_LOGGED_IN_START })
     }
-  }
-  return {
-    type: CHECK_LOGGED_IN,
-    payload: payload
+
+    const id = localStorage.getItem('id')
+
+    return axios
+      .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(res => {
+        console.log(res)
+        dispatch({ type: CHECK_LOGGED_IN_SUCCESS, payload: res.data })
+      })
+      .catch(err => {
+        dispatch({
+          type: CHECK_LOGGED_IN_FAILED,
+          payload: 'Login expired! Please sign in again.'
+        })
+      })
   }
 }
 
@@ -88,37 +107,58 @@ export const getPosts = () => {
   return dispatch => {
     dispatch({ type: GET_POSTS_START })
 
-    return axios
-      .get('https://expat-journal-backend.herokuapp.com/api/posts/')
-      .then(res => {
-        const payload = res.data
-        dispatch({ type: GET_POSTS_SUCCESS, payload })
-      })
-      .catch(err => {
-        const payload = err.response ? err.response.data : err
-        dispatch({ type: GET_POSTS_FAILED, payload })
-      })
+    return (
+      axios
+        // .get('https://expat-journal-backend.herokuapp.com/api/posts/')
+        .get('http://localhost:5000/api/posts/')
+        .then(res => {
+          const payload = res.data
+
+          localStorage.setItem('posts', JSON.stringify(res.data))
+
+          dispatch({ type: GET_POSTS_SUCCESS, payload })
+        })
+        .catch(err => {
+          const payload = err.response ? err.response.data : err
+          dispatch({ type: GET_POSTS_FAILED, payload })
+        })
+    )
   }
 }
 
 // getUserPosts() - MVP
 //-----------------------------------------------------|
 export const getUserPosts = id => {
-  return dispatch => {
-    dispatch({ type: GET_USER_POSTS_START })
-    console.log(id)
-    return axios
-      .get('https://expat-journal-backend.herokuapp.com/api/posts/')
-      .then(res => {
-        const payload = { data: res.data, id }
-        dispatch({ type: GET_USER_POSTS_SUCCESS, payload })
-      })
-      .catch(err => {
-        const payload = err.response ? err.response.data : err
-        dispatch({ type: GET_USER_POSTS_FAILED, payload })
-      })
+  return {
+    type: GET_USER_POSTS,
+    payload: id
   }
 }
+
+// export const getUserPosts = id => {
+//   return dispatch => {
+//     dispatch({ type: GET_USER_POSTS_START })
+
+//     const token = localStorage.getItem('token')
+
+//     return axios
+//       .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
+//         headers: {
+//           Authorization: token
+//         }
+//       })
+//       .then(res => {
+//         const payload = { data: res.data }
+//         setTimeout(() => {
+//           dispatch({ type: GET_USER_POSTS_SUCCESS, payload })
+//         }, 1000)
+//       })
+//       .catch(err => {
+//         const payload = err.response ? err.response.data : err
+//         dispatch({ type: GET_USER_POSTS_FAILED, payload })
+//       })
+//   }
+// }
 
 // AUTH ACTION CREATORS ===============================|
 //=====================================================|

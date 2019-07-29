@@ -6,7 +6,7 @@ export default function PrivateRoute(props) {
   return (
     <Route
       {...rest}
-      render={rest => {
+      render={() => {
         // grab token value stored in local storage
         const token = localStorage.getItem('token')
 
