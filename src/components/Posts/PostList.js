@@ -1,5 +1,5 @@
 import React from 'react'
-import { Preloader, Card, CardTitle } from 'react-materialize'
+import { Preloader, Card } from 'react-materialize'
 
 function PostList(props) {
   // Break the list of items into chunks
@@ -32,6 +32,7 @@ function PostList(props) {
                       <img
                         className="activator"
                         src={`https://picsum.photos/id/${randomImgId}/500/500`}
+                        alt={post.title}
                       />
                       <span className="card-title activator">{post.title}</span>
                     </div>

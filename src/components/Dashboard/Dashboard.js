@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Button } from 'react-materialize'
-import PrivateRoute from '../PrivateRoute/PrivateRoute'
 import UserPosts from '../Posts/UserPosts'
 import { getUserPosts, checkLoggedIn } from '../../store/actions'
 
@@ -14,9 +13,8 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { location, match, userName, history } = this.props
+    const { match, userName, history } = this.props
     const { path } = match
-    const { pathname } = location
 
     return (
       <div className="dashboard">
@@ -34,7 +32,6 @@ class Dashboard extends Component {
           </section>
         </aside>
         <main className="dashboard-posts">
-          {/*pathname === '/dashboard' && history.push(`${path}/posts`)*/}
           <UserPosts userPosts={this.props.posts} />
         </main>
       </div>
