@@ -24,8 +24,10 @@ function PostList(props) {
             {props.posts.map(post => {
               // pass id into picsum api for image src
               const randomImgId = post.id
+              console.log(post)
               return (
                 <Card
+                  className="hoverable"
                   key={post.id}
                   header={
                     <div className="card-image">
@@ -37,7 +39,23 @@ function PostList(props) {
                       <span className="card-title activator">{post.title}</span>
                     </div>
                   }
-                  reveal={<p>{post.description}</p>}
+                  reveal={
+                    <div>
+                      <header>
+                        <h6>{post.title}</h6>
+                        <span>
+                          {post.city}, {post.country}
+                        </span>
+                      </header>
+                      <p>{post.description}</p>
+                      <footer>
+                        <span className="meta grey-text">
+                          Posted: {post.created_at} <br /> Last Updated:{' '}
+                          {post.updated_at}
+                        </span>
+                      </footer>
+                    </div>
+                  }
                 >
                   <p>
                     {post.city}
@@ -64,28 +82,3 @@ function PostList(props) {
 }
 
 export default PostList
-
-/*
-<div className="card hoverable" key={post.id}>
-                  <div className="card-image">
-                    <img
-                      className="activator"
-                      src={`https://picsum.photos/id/${randomImgId}/500/500`}
-                      alt={post.title}
-                    />
-                    <span className="card-title">{post.title}</span>
-                  </div>
-                  <div className="card-content">
-                    <p>
-                      {post.city}, {post.country}
-                    </p>
-                  </div>
-                  <div className="card-reveal">
-                    <span classname="card-title">
-                      {post.title}
-                      <i className="material-icons right">close</i>
-                    </span>
-                    <p>{post.description}</p>
-                  </div>
-                </div>
-*/

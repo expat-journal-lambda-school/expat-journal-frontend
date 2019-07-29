@@ -7,7 +7,6 @@ import { getPosts, checkLoggedIn } from '../store/actions'
 import Navigation from './Navigation/Navigation'
 import Home from './Home/Home'
 import PostList from './Posts/PostList'
-import Post from './Posts/Post'
 import Login from './Authorization/Login'
 import Register from './Authorization/Register'
 import Dashboard from './Dashboard/Dashboard'
@@ -45,7 +44,6 @@ class App extends Component {
           path="/posts"
           render={props => <PostList {...props} posts={this.props.posts} />}
         />
-        <Route exact path="/posts/:id" render={props => <Post {...props} />} />
         <Route exact path="/login" render={props => <Login {...props} />} />
         <Route
           exact
