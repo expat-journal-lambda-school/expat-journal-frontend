@@ -66,31 +66,25 @@ export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED'
 //=====================================================|
 // checkLoggedIn()
 //-----------------------------------------------------|
-export const checkLoggedIn = token => {
+export const checkLoggedIn = () => {
   return dispatch => {
-    if (token === null) {
-      console.log('CHECK_LOGGED_IN_FAILED: NO TOKEN')
-      return dispatch({
-        type: CHECK_LOGGED_IN_FAILED,
-        payload: 'Not logged in.'
-      })
-    } else {
-      dispatch({ type: CHECK_LOGGED_IN_START })
-    }
+    dispatch({ type: CHECK_LOGGED_IN_START })
 
     const id = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
+    console.log(token)
 
-    return axios
+    axios
       .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
         headers: {
           Authorization: token
         }
       })
       .then(res => {
-        console.log(res)
         dispatch({ type: CHECK_LOGGED_IN_SUCCESS, payload: res.data })
       })
       .catch(err => {
+        console.log(err)
         dispatch({
           type: CHECK_LOGGED_IN_FAILED,
           payload: 'Login expired! Please sign in again.'
@@ -107,22 +101,42 @@ export const getPosts = () => {
   return dispatch => {
     dispatch({ type: GET_POSTS_START })
 
-    return (
-      axios
-        // .get('https://expat-journal-backend.herokuapp.com/api/posts/')
-        .get('http://localhost:5000/api/posts/')
-        .then(res => {
-          const payload = res.data
+    return axios
+      .get('https://expat-journal-backend.herokuapp.com/api/posts/')
+      .then(res => {
+        const payload = res.data
 
-          localStorage.setItem('posts', JSON.stringify(res.data))
+        localStorage.setItem('posts', JSON.stringify(res.data))
 
-          dispatch({ type: GET_POSTS_SUCCESS, payload })
-        })
-        .catch(err => {
-          const payload = err.response ? err.response.data : err
-          dispatch({ type: GET_POSTS_FAILED, payload })
-        })
-    )
+        dispatch({ type: GET_POSTS_SUCCESS, payload })
+      })
+      .catch(err => {
+        const payload = err.response ? err.response.data : err
+        dispatch({ type: GET_POSTS_FAILED, payload })
+      })
+  }
+}
+
+// createPost() - MVP - POST Request
+//-----------------------------------------------------|
+export const createPost = post => {
+  return dispatch => {
+    dispatch({ type: ADD_POST_START })
+
+    const token = localStorage.getItem('token')
+
+    return axios
+      .post('https://expat-journal-backend.herokuapp.com/api/posts/', post, {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(res => {
+        dispatch({ type: ADD_POST_SUCCESS, payload: res.data })
+      })
+      .catch(err => {
+        dispatch({ type: ADD_POST_FAILED, payload: err.errorMessage })
+      })
   }
 }
 

@@ -24,7 +24,6 @@ function PostList(props) {
             {props.posts.map(post => {
               // pass id into picsum api for image src
               const randomImgId = post.id
-              console.log(post)
               return (
                 <Card
                   className="hoverable"

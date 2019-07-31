@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Button } from 'react-materialize'
+import PrivateRoute from '../PrivateRoute/PrivateRoute'
 import UserPosts from '../Posts/UserPosts'
+import CreatePost from './CreatePost'
 import { getUserPosts, checkLoggedIn } from '../../store/actions'
 
 class Dashboard extends Component {
@@ -13,8 +15,13 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { match, userName, history } = this.props
+    const { location, match, userName, history, isLoggedIn } = this.props
     const { path } = match
+    const { pathname } = location
+
+    // if (!isLoggedIn) {
+    //   return <>{history.push('/')}</>
+    // }
 
     return (
       <div className="dashboard">
@@ -25,14 +32,26 @@ class Dashboard extends Component {
           </header>
 
           <section className="sidebar-actions">
-            <Button large>Create Post</Button>
-            <Button onClick={() => history.push(`${path}/posts`)} large>
-              View Posts
+            <Button
+              onClick={e => {
+                e.preventDefault()
+                history.push(`${path}/posts/add`)
+              }}
+              large
+            >
+              Create Post
             </Button>
           </section>
         </aside>
         <main className="dashboard-posts">
-          <UserPosts userPosts={this.props.posts} />
+          {pathname !== '/dashboard/posts/add' && (
+            <UserPosts userPosts={this.props.posts} />
+          )}
+          <PrivateRoute
+            exact
+            path="/dashboard/posts/add"
+            component={CreatePost}
+          />
         </main>
       </div>
     )

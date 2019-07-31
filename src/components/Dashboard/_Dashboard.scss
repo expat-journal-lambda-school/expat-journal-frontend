@@ -54,4 +54,12 @@
       padding-left: 150px;
     }
   }
+
+  .create-post {
+    .input-field {
+      textarea {
+        height: 250px;
+      }
+    }
+  }
 }
