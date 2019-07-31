@@ -13,9 +13,6 @@ export const GET_POSTS_FAILED = 'GET_POSTS_FAILED'
 // GET_USER_POSTS
 //-----------------------------------------------------|
 export const GET_USER_POSTS = 'GET_USER_POSTS'
-// export const GET_USER_POSTS_START = 'GET_USER_POSTS_START'
-// export const GET_USER_POSTS_SUCCESS = 'GET_USER_POSTS_SUCCESS'
-// export const GET_USER_POSTS_FAILED = 'GET_USER_POSTS_FAILED'
 
 // ADD_POST
 //-----------------------------------------------------|
@@ -84,7 +81,6 @@ export const checkLoggedIn = () => {
         dispatch({ type: CHECK_LOGGED_IN_SUCCESS, payload: res.data })
       })
       .catch(err => {
-        console.log(err)
         dispatch({
           type: CHECK_LOGGED_IN_FAILED,
           payload: 'Login expired! Please sign in again.'
@@ -140,6 +136,33 @@ export const createPost = post => {
   }
 }
 
+// deletePost() - MVP - POST Request
+//-----------------------------------------------------|
+export const deletePost = id => {
+  return dispatch => {
+    dispatch({ type: DELETE_POST_START })
+
+    console.log(id)
+
+    const token = localStorage.getItem('token')
+
+    axios
+      .delete(`https://expat-journal-backend.herokuapp.com/api/posts/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(res => {
+        console.log(res)
+        // dispatch({ type: DELETE_POST_SUCCESS, payload: res.data })
+      })
+      .catch(err => {
+        console.log(err.response)
+        // dispatch({ type: DELETE_POST_FAILED, payload: err.errorMessage })
+      })
+  }
+}
+
 // getUserPosts() - MVP
 //-----------------------------------------------------|
 export const getUserPosts = id => {
@@ -148,31 +171,6 @@ export const getUserPosts = id => {
     payload: id
   }
 }
-
-// export const getUserPosts = id => {
-//   return dispatch => {
-//     dispatch({ type: GET_USER_POSTS_START })
-
-//     const token = localStorage.getItem('token')
-
-//     return axios
-//       .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
-//         headers: {
-//           Authorization: token
-//         }
-//       })
-//       .then(res => {
-//         const payload = { data: res.data }
-//         setTimeout(() => {
-//           dispatch({ type: GET_USER_POSTS_SUCCESS, payload })
-//         }, 1000)
-//       })
-//       .catch(err => {
-//         const payload = err.response ? err.response.data : err
-//         dispatch({ type: GET_USER_POSTS_FAILED, payload })
-//       })
-//   }
-// }
 
 // AUTH ACTION CREATORS ===============================|
 //=====================================================|

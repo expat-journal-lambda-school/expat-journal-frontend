@@ -1,8 +1,15 @@
 import React from 'react'
 import { Button, Modal, Preloader } from 'react-materialize'
+import { deletePost } from '../../store/actions'
 import { connect } from 'react-redux'
 
 function UserPosts(props) {
+  function deletePost(e, id) {
+    e.preventDefault()
+
+    props.deletePost(id)
+  }
+
   if (props.userPosts.length) {
     return (
       <div className="user-post-list">
@@ -31,7 +38,12 @@ function UserPosts(props) {
                         </Button>
                       }
                       actions={[
-                        <Button className="red">I am sure</Button>,
+                        <Button
+                          className="red"
+                          onClick={e => deletePost(e, post.id)}
+                        >
+                          I am sure
+                        </Button>,
                         <Button modal="close">Cancel</Button>
                       ]}
                     >
@@ -83,4 +95,7 @@ const mapStateToProps = state => ({
   isLoading: state.postsReducer.isLoadingUserPosts
 })
 
-export default connect(mapStateToProps)(UserPosts)
+export default connect(
+  mapStateToProps,
+  { deletePost }
+)(UserPosts)

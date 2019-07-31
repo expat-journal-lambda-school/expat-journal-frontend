@@ -5,7 +5,10 @@ import {
   GET_USER_POSTS,
   ADD_POST_START,
   ADD_POST_SUCCESS,
-  ADD_POST_FAILED
+  ADD_POST_FAILED,
+  DELETE_POST_START,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_FAILED
 } from '../actions'
 
 // If availabile pull posts from local storage
@@ -21,6 +24,7 @@ const initialState = {
   isLoadingPosts: false,
   isLoadingUserPosts: false,
   isAddingPost: false,
+  isDeletingPost: false,
   errorMessage: null
 }
 
@@ -61,7 +65,7 @@ export const postsReducer = (state = initialState, action) => {
         userPosts
       }
     }
-    // ADD_POSTS ---------------------------|
+    // ADD_POST ----------------------------|
     case ADD_POST_START: {
       return {
         ...state,
@@ -87,6 +91,34 @@ export const postsReducer = (state = initialState, action) => {
         ...state,
         errorMessage: action.payload,
         isAddingPost: false
+      }
+    }
+    // DELETE_POST -------------------------|
+    case DELETE_POST_START: {
+      return {
+        ...state,
+        isDeletingPost: true
+      }
+    }
+    case DELETE_POST_SUCCESS: {
+      // Update Local Storage with new post
+      localStorage.setItem(
+        'posts',
+        JSON.stringify(state.posts.concat(action.payload))
+      )
+
+      return {
+        ...state,
+        posts: state.posts.concat(action.payload),
+        userPosts: state.userPosts.concat(action.payload),
+        isDeletingPost: false
+      }
+    }
+    case DELETE_POST_FAILED: {
+      return {
+        ...state,
+        errorMessage: action.payload,
+        isDeletingPost: false
       }
     }
     default:

@@ -19,10 +19,6 @@ class Dashboard extends Component {
     const { path } = match
     const { pathname } = location
 
-    // if (!isLoggedIn) {
-    //   return <>{history.push('/')}</>
-    // }
-
     return (
       <div className="dashboard">
         <aside className="dashboard-sidebar">
