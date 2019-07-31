@@ -10,7 +10,8 @@ export default function PrivateRoute(props) {
         // grab token value stored in local storage
         const token = localStorage.getItem('token')
 
-        return token ? <Component /> : <Redirect to="/login" />
+        // if token exists then render the component else redirect to Login component
+        return token ? <Component {...props} /> : <Redirect to="/login" />
       }}
     />
   )

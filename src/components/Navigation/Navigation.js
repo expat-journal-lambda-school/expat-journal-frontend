@@ -11,7 +11,10 @@ function Navigation(props) {
     const target = e.target.innerHTML
 
     if (target === 'Logout') {
+      // Dispatch action to toggle isLoggedIn state to false
       props.logout()
+      // Then redirect user to the Home component
+      props.history.push('/')
     }
   }
 

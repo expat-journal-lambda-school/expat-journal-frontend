@@ -1,26 +1,69 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { Button } from 'react-materialize'
+import PrivateRoute from '../PrivateRoute/PrivateRoute'
+import UserPosts from '../Posts/UserPosts'
+import CreatePost from './CreatePost'
+import { getUserPosts, checkLoggedIn } from '../../store/actions'
 
 class Dashboard extends Component {
-  componentDidUpdate() {
-    if (!this.props.isLoggedIn) {
-      this.props.history.push('/')
-    }
+  componentDidMount() {
+    const id = localStorage.getItem('id')
+    console.log(id)
+    this.props.getUserPosts(id)
   }
 
   render() {
-    console.log(this.props)
+    const { location, match, userName, history, isLoggedIn } = this.props
+    const { path } = match
+    const { pathname } = location
+
     return (
       <div className="dashboard">
-        <aside>This is the Dashboard Component</aside>
+        <aside className="dashboard-sidebar">
+          <header className="sidebar-title">
+            <h3>User: {userName}</h3>
+            <hr />
+          </header>
+
+          <section className="sidebar-actions">
+            <Button
+              onClick={e => {
+                e.preventDefault()
+                history.push(`${path}/posts/add`)
+              }}
+              large
+            >
+              Create Post
+            </Button>
+          </section>
+        </aside>
+        <main className="dashboard-posts">
+          {pathname !== '/dashboard/posts/add' && (
+            <UserPosts userPosts={this.props.posts} />
+          )}
+          <PrivateRoute
+            exact
+            path="/dashboard/posts/add"
+            component={CreatePost}
+          />
+        </main>
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.authReducer.isLoggedIn
+  isLoggedIn: state.authReducer.isLoggedIn,
+  userId: state.authReducer.id,
+  userName: state.authReducer.username,
+  posts: state.postsReducer.userPosts
 })
 
-export default withRouter(connect(mapStateToProps)(Dashboard))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { getUserPosts, checkLoggedIn }
+  )(Dashboard)
+)

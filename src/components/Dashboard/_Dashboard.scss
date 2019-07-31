@@ -1,0 +1,65 @@
+.dashboard {
+  display: flex;
+
+  .dashboard-sidebar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    padding: 64px 1rem 0;
+    background: white;
+
+    @media only screen and (max-width: 1350px) {
+      width: 200px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      width: 150px;
+    }
+
+    .sidebar-title {
+      margin-bottom: 2rem;
+
+      h3 {
+        @media only screen and (max-width: 1350px) {
+          font-size: 1.5rem;
+        }
+
+        @media only screen and (max-width: 600px) {
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    .sidebar-actions {
+      .btn-large {
+        margin: .5rem 0;
+        width: 100%;
+      }
+    }
+  }
+
+  .dashboard-posts {
+    padding-left: 400px;
+    width: 100%;
+
+    @media only screen and (max-width: 1350px) {
+      padding-left: 200px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      padding-left: 150px;
+    }
+  }
+
+  .create-post {
+    .input-field {
+      textarea {
+        height: 250px;
+      }
+    }
+  }
+}

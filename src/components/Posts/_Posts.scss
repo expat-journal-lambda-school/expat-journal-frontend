@@ -49,5 +49,81 @@
       }
     }
   }
+}
 
+.user-post-list {
+  padding: 1rem;
+
+  .post-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .no-posts {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card {
+      margin: 1rem;
+      cursor: pointer;
+      flex-basis: 21%;
+
+      @media only screen and (max-width: 1350px) {
+        flex-basis: 44%;
+      }
+
+      @media only screen and (max-width: 950px) {
+        flex-basis: 100%;
+      }
+
+      @media only screen and (max-width: 700px) {
+        flex-basis: 100%;
+      }
+
+      @media only screen and (max-width: 600px) {
+        flex-basis: 80%;
+      }
+
+      .card-image {
+        min-height: 200px;
+
+        img {
+          min-height: 250px;
+        }
+      }
+
+      .card-title {
+        font-size: 1.1rem;
+        background: rgba(51, 51, 51, 0.5);
+        width: 100%;
+        font-weight: bold;
+
+        @media only screen and (max-width: 700px) {
+          font-size: 1.3rem;
+        }
+
+        @media only screen and (max-width: 600px) {
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+}
+
+div {
+  .modal {
+    .modal-footer {
+      .btn {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
+
+#preloader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10rem;
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Preloader, Card } from 'react-materialize'
 
 function PostList(props) {
   // Break the list of items into chunks
@@ -15,30 +16,64 @@ function PostList(props) {
 
   console.log(chunk(props.posts, 30))
 
+  if (props.posts.length) {
+    return (
+      <div className="post-list">
+        <div className="row">
+          <div className="post-grid">
+            {props.posts.map(post => {
+              // pass id into picsum api for image src
+              const randomImgId = post.id
+              return (
+                <Card
+                  className="hoverable"
+                  key={post.id}
+                  header={
+                    <div className="card-image">
+                      <img
+                        className="activator"
+                        src={`https://picsum.photos/id/${randomImgId}/500/500`}
+                        alt={post.title}
+                      />
+                      <span className="card-title activator">{post.title}</span>
+                    </div>
+                  }
+                  reveal={
+                    <div>
+                      <header>
+                        <h6>{post.title}</h6>
+                        <span>
+                          {post.city}, {post.country}
+                        </span>
+                      </header>
+                      <p>{post.description}</p>
+                      <footer>
+                        <span className="meta grey-text">
+                          Posted: {post.created_at} <br /> Last Updated:{' '}
+                          {post.updated_at}
+                        </span>
+                      </footer>
+                    </div>
+                  }
+                >
+                  <p>
+                    {post.city}
+                    {', '}
+                    {post.country}
+                  </p>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="post-list">
       <div className="row">
-        <div className="post-grid">
-          {props.posts.map(post => {
-            // pass id into picsum api for image src
-            const randomImgId = post.id
-            return (
-              <div className="card hoverable" key={post.id}>
-                <div className="card-image">
-                  <img
-                    src={`https://picsum.photos/id/${randomImgId}/500/500`}
-                    alt={post.title}
-                  />
-                  <span className="card-title">{post.title}</span>
-                </div>
-                <div className="card-content">
-                  <p>
-                    {post.city}, {post.country}
-                  </p>
-                </div>
-              </div>
-            )
-          })}
+        <div id="preloader">
+          <Preloader />
         </div>
       </div>
     </div>

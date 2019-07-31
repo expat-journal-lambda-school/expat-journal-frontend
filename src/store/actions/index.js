@@ -10,6 +10,10 @@ export const GET_POSTS_START = 'GET_POSTS_START'
 export const GET_POSTS_SUCCESS = 'GET_POSTS_SUCCESS'
 export const GET_POSTS_FAILED = 'GET_POSTS_FAILED'
 
+// GET_USER_POSTS
+//-----------------------------------------------------|
+export const GET_USER_POSTS = 'GET_USER_POSTS'
+
 // ADD_POST
 //-----------------------------------------------------|
 export const ADD_POST_START = 'ADD_POST_START'
@@ -47,7 +51,9 @@ export const CLEAR_AUTH_MESSAGES = 'CLEAR_MESSAGES'
 
 // CHECK_LOGGED_IN
 //-----------------------------------------------------|
-export const CHECK_LOGGED_IN = 'CHECK_LOGGED_IN'
+export const CHECK_LOGGED_IN_START = 'CHECK_LOGGED_IN_START'
+export const CHECK_LOGGED_IN_SUCCESS = 'CHECK_LOGGED_IN_SUCCESS'
+export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED'
 
 //=====================================================|
 // ACTION CREATORS ====================================|
@@ -58,15 +64,28 @@ export const CHECK_LOGGED_IN = 'CHECK_LOGGED_IN'
 // checkLoggedIn()
 //-----------------------------------------------------|
 export const checkLoggedIn = () => {
-  let payload
-  if (localStorage.getItem('token') === null) {
-    payload = false
-  } else {
-    payload = true
-  }
-  return {
-    type: CHECK_LOGGED_IN,
-    payload: payload
+  return dispatch => {
+    dispatch({ type: CHECK_LOGGED_IN_START })
+
+    const id = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
+    console.log(token)
+
+    axios
+      .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(res => {
+        dispatch({ type: CHECK_LOGGED_IN_SUCCESS, payload: res.data })
+      })
+      .catch(err => {
+        dispatch({
+          type: CHECK_LOGGED_IN_FAILED,
+          payload: 'Login expired! Please sign in again.'
+        })
+      })
   }
 }
 
@@ -82,12 +101,74 @@ export const getPosts = () => {
       .get('https://expat-journal-backend.herokuapp.com/api/posts/')
       .then(res => {
         const payload = res.data
+
+        localStorage.setItem('posts', JSON.stringify(res.data))
+
         dispatch({ type: GET_POSTS_SUCCESS, payload })
       })
       .catch(err => {
         const payload = err.response ? err.response.data : err
         dispatch({ type: GET_POSTS_FAILED, payload })
       })
+  }
+}
+
+// createPost() - MVP - POST Request
+//-----------------------------------------------------|
+export const createPost = post => {
+  return dispatch => {
+    dispatch({ type: ADD_POST_START })
+
+    const token = localStorage.getItem('token')
+
+    return axios
+      .post('https://expat-journal-backend.herokuapp.com/api/posts/', post, {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(res => {
+        dispatch({ type: ADD_POST_SUCCESS, payload: res.data })
+      })
+      .catch(err => {
+        dispatch({ type: ADD_POST_FAILED, payload: err.errorMessage })
+      })
+  }
+}
+
+// deletePost() - MVP - POST Request
+//-----------------------------------------------------|
+export const deletePost = id => {
+  return dispatch => {
+    dispatch({ type: DELETE_POST_START })
+
+    console.log(id)
+
+    const token = localStorage.getItem('token')
+
+    axios
+      .delete(`https://expat-journal-backend.herokuapp.com/api/posts/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(res => {
+        console.log(res)
+        // dispatch({ type: DELETE_POST_SUCCESS, payload: res.data })
+      })
+      .catch(err => {
+        console.log(err.response)
+        // dispatch({ type: DELETE_POST_FAILED, payload: err.errorMessage })
+      })
+  }
+}
+
+// getUserPosts() - MVP
+//-----------------------------------------------------|
+export const getUserPosts = id => {
+  return {
+    type: GET_USER_POSTS,
+    payload: id
   }
 }
 
@@ -105,7 +186,7 @@ export function login(username, password) {
         password
       })
       .then(res => {
-        console.log(res)
+        // store user in localStorage
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('username', res.data.username)
         localStorage.setItem('id', res.data.id)
@@ -142,10 +223,14 @@ export function register(username, password) {
         password: password
       })
       .then(res => {
+        // store user in localStorage
         localStorage.setItem('token', res.data.token)
+        localStorage.setItem('username', res.data.username)
+        localStorage.setItem('id', res.data.id)
 
         const payload = {
           username: res.data.username,
+          id: res.data.id,
           successMsg: res.statusText
         }
         dispatch({ type: REGISTER_SUCCESS, payload })
