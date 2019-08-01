@@ -139,16 +139,8 @@ export const postsReducer = (state = initialState, action) => {
       }
     }
     case DELETE_POST_SUCCESS: {
-      // Update Local Storage with new post
-      // localStorage.setItem(
-      //   'posts',
-      //   JSON.stringify(state.posts.concat(action.payload))
-      // )
-
       return {
         ...state,
-        // posts: state.posts.concat(action.payload),
-        // userPosts: state.userPosts.concat(action.payload),
         isDeletingPost: false
       }
     }
