@@ -40,7 +40,7 @@ class Dashboard extends Component {
           </section>
         </aside>
         <main className="dashboard-posts">
-          {pathname !== '/dashboard/posts/add' && (
+          {pathname === '/dashboard' && (
             <UserPosts userPosts={this.props.posts} />
           )}
           <PrivateRoute
@@ -50,7 +50,7 @@ class Dashboard extends Component {
           />
           <PrivateRoute
             exact
-            path="/dashboard/posts/update"
+            path="/dashboard/posts/update/:id"
             component={EditPost}
           />
         </main>

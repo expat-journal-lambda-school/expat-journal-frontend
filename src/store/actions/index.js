@@ -12,7 +12,9 @@ export const GET_POSTS_FAILED = 'GET_POSTS_FAILED'
 
 // GET_USER_POSTS
 //-----------------------------------------------------|
-export const GET_USER_POSTS = 'GET_USER_POSTS'
+export const GET_USER_POSTS_START = 'GET_USER_POSTS_START'
+export const GET_USER_POSTS_SUCCESS = 'GET_USER_POSTS_SUCCESS'
+export const GET_USER_POSTS_FAILED = 'GET_USER_POSTS_FAILED'
 
 // ADD_POST
 //-----------------------------------------------------|
@@ -78,6 +80,7 @@ export const checkLoggedIn = () => {
         }
       })
       .then(res => {
+        console.log(res)
         dispatch({ type: CHECK_LOGGED_IN_SUCCESS, payload: res.data })
       })
       .catch(err => {
@@ -136,7 +139,37 @@ export const createPost = post => {
   }
 }
 
-// deletePost() - MVP - POST Request
+// editPost() - MVP - PUT Request
+//-----------------------------------------------------|
+export const editPost = (post, id) => {
+  return dispatch => {
+    dispatch({ type: UPDATE_POST_START })
+
+    const token = localStorage.getItem('token')
+
+    return axios
+      .put(
+        `https://expat-journal-backend.herokuapp.com/api/posts/${id}`,
+        post,
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      )
+      .then(res => {
+        dispatch({ type: UPDATE_POST_SUCCESS, payload: res.data })
+      })
+      .catch(err => {
+        dispatch({
+          type: UPDATE_POST_FAILED,
+          payload: err.response.data.error_message
+        })
+      })
+  }
+}
+
+// deletePost() - MVP - DELETE Request
 //-----------------------------------------------------|
 export const deletePost = id => {
   return dispatch => {
@@ -154,21 +187,39 @@ export const deletePost = id => {
       })
       .then(res => {
         console.log(res)
-        // dispatch({ type: DELETE_POST_SUCCESS, payload: res.data })
+        dispatch({ type: DELETE_POST_SUCCESS, payload: res.data })
       })
       .catch(err => {
         console.log(err.response)
-        // dispatch({ type: DELETE_POST_FAILED, payload: err.errorMessage })
+        dispatch({ type: DELETE_POST_FAILED, payload: err.errorMessage })
       })
   }
 }
 
-// getUserPosts() - MVP
+// getUserPosts() - MVP - GET Request
 //-----------------------------------------------------|
-export const getUserPosts = id => {
-  return {
-    type: GET_USER_POSTS,
-    payload: id
+export const getUserPosts = () => {
+  return dispatch => {
+    dispatch({ type: GET_USER_POSTS_START })
+    const id = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
+
+    return axios
+      .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(res => {
+        console.log(res)
+        dispatch({ type: GET_USER_POSTS_SUCCESS, payload: res.data })
+      })
+      .catch(err => {
+        dispatch({
+          type: GET_USER_POSTS_FAILED,
+          payload: err.response.data.error_message
+        })
+      })
   }
 }
 
