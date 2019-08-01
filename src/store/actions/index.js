@@ -179,14 +179,14 @@ export const deletePost = id => {
 
     const token = localStorage.getItem('token')
 
-    axios
+    return axios
       .delete(`https://expat-journal-backend.herokuapp.com/api/posts/${id}`, {
         headers: {
           Authorization: token
         }
       })
       .then(res => {
-        console.log(res)
+        console.log(res.data)
         dispatch({ type: DELETE_POST_SUCCESS, payload: res.data })
       })
       .catch(err => {

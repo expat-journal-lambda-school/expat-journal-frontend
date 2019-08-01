@@ -1,14 +1,27 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Button, Modal, Preloader, Card } from 'react-materialize'
-import { deletePost } from '../../store/actions'
+import { deletePost, getUserPosts } from '../../store/actions'
 import { connect } from 'react-redux'
+import M from 'materialize-css'
 
 function UserPosts(props) {
   function deletePost(e, id) {
     e.preventDefault()
 
-    props.deletePost(id)
+    let elem = e.target.parentNode.parentNode
+    let modal = M.Modal.getInstance(elem)
+
+    console.log(elem)
+    props
+      .deletePost(id)
+      .then(() => {
+        props.getUserPosts()
+        modal.close()
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   if (props.userPosts.length) {
@@ -105,7 +118,7 @@ function UserPosts(props) {
   }
 
   // if userPosts is 0 and state isLoading is true then display the loading indicator
-  if (!props.userPosts.length && props.isLoading) {
+  if (props.isLoading) {
     return (
       <div className="user-post-list">
         <div className="row">
@@ -138,7 +151,7 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { deletePost }
+    { deletePost, getUserPosts }
   )(UserPosts)
 )
 
