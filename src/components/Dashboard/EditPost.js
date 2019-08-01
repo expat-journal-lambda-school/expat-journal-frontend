@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { TextInput, Textarea, Button, Row, Col } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { createPost, getUserPosts } from '../../store/actions'
+import { editPost, getPosts, getUserPosts } from '../../store/actions'
 
-class CreatePost extends Component {
+class EditPost extends Component {
   state = {
     user_id: '',
     title: '',
@@ -15,15 +15,39 @@ class CreatePost extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      user_id: Number(localStorage.getItem('id'))
+    const posts = JSON.parse(localStorage.getItem('posts'))
+
+    const post = posts.filter(post => {
+      return post.id === Number(this.props.match.params.id)
     })
+
+    const { id, user_id, title, city, country, description, imageURL } = post[0]
+
+    if (user_id === Number(localStorage.getItem('id'))) {
+      this.setState({
+        id,
+        user_id,
+        title,
+        city,
+        country,
+        description,
+        imageURL
+      })
+    }
   }
 
   onSubmit = e => {
     e.preventDefault()
 
-    const { user_id, city, country, imageURL, title, description } = this.state
+    const {
+      id,
+      user_id,
+      city,
+      country,
+      imageURL,
+      title,
+      description
+    } = this.state
 
     const post = {
       user_id,
@@ -34,17 +58,15 @@ class CreatePost extends Component {
       imageURL
     }
 
+    const postId = id
+
     this.props
-      .createPost(post)
+      .editPost(post, postId)
       .then(() => {
-        this.props
-          .getUserPosts()
-          .then(() => {
-            this.props.history.push('/dashboard')
-          })
-          .catch(err => {
-            console.log(err)
-          })
+        this.props.getUserPosts().then(() => {
+          this.props.getPosts()
+          this.props.history.push('/dashboard')
+        })
       })
       .catch(err => {
         console.log(err)
@@ -60,7 +82,7 @@ class CreatePost extends Component {
   render() {
     return (
       <div className="create-post container">
-        <h4>Create a new post:</h4>
+        <h4>Update post:</h4>
         <form onSubmit={this.onSubmit} className="container">
           <Row>
             <TextInput
@@ -117,7 +139,7 @@ class CreatePost extends Component {
               validate
             />
 
-            <Button type="submit">Create Post</Button>
+            <Button type="submit">Update Post</Button>
           </Row>
         </form>
       </div>
@@ -125,9 +147,13 @@ class CreatePost extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  posts: state.postsReducer.userPosts
+})
+
 export default withRouter(
   connect(
-    null,
-    { createPost, getUserPosts }
-  )(CreatePost)
+    mapStateToProps,
+    { editPost, getPosts, getUserPosts }
+  )(EditPost)
 )

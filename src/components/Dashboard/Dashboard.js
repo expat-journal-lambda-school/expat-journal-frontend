@@ -5,12 +5,12 @@ import { Button } from 'react-materialize'
 import PrivateRoute from '../PrivateRoute/PrivateRoute'
 import UserPosts from '../Posts/UserPosts'
 import CreatePost from './CreatePost'
+import EditPost from './EditPost'
 import { getUserPosts, checkLoggedIn } from '../../store/actions'
 
 class Dashboard extends Component {
   componentDidMount() {
     const id = localStorage.getItem('id')
-    console.log(id)
     this.props.getUserPosts(id)
   }
 
@@ -40,13 +40,18 @@ class Dashboard extends Component {
           </section>
         </aside>
         <main className="dashboard-posts">
-          {pathname !== '/dashboard/posts/add' && (
+          {pathname === '/dashboard' && (
             <UserPosts userPosts={this.props.posts} />
           )}
           <PrivateRoute
             exact
             path="/dashboard/posts/add"
             component={CreatePost}
+          />
+          <PrivateRoute
+            exact
+            path="/dashboard/posts/update/:id"
+            component={EditPost}
           />
         </main>
       </div>

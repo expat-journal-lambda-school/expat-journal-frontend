@@ -2,13 +2,18 @@ import {
   GET_POSTS_START,
   GET_POSTS_SUCCESS,
   GET_POSTS_FAILED,
-  GET_USER_POSTS,
+  GET_USER_POSTS_START,
+  GET_USER_POSTS_SUCCESS,
+  GET_USER_POSTS_FAILED,
   ADD_POST_START,
   ADD_POST_SUCCESS,
   ADD_POST_FAILED,
   DELETE_POST_START,
   DELETE_POST_SUCCESS,
-  DELETE_POST_FAILED
+  DELETE_POST_FAILED,
+  UPDATE_POST_START,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_FAILED
 } from '../actions'
 
 // If availabile pull posts from local storage
@@ -24,6 +29,7 @@ const initialState = {
   isLoadingPosts: false,
   isLoadingUserPosts: false,
   isAddingPost: false,
+  isUpdatingPost: false,
   isDeletingPost: false,
   errorMessage: null
 }
@@ -54,15 +60,27 @@ export const postsReducer = (state = initialState, action) => {
       }
     }
     // GET_USER_POSTS -----------------------|
-    case GET_USER_POSTS: {
-      // Filter posts by loggedin user's id
-      const userPosts = state.posts.filter(post => {
-        return post.user_id === Number(action.payload)
-      })
-
+    case GET_USER_POSTS_START: {
       return {
         ...state,
-        userPosts
+        isLoadingUserPosts: true,
+        errLoadingUserPosts: null
+      }
+    }
+    case GET_USER_POSTS_SUCCESS: {
+      console.log(action.payload.posts)
+      return {
+        ...state,
+        userPosts: action.payload.posts,
+        isLoadingUserPosts: false,
+        errLoadingUserPosts: null
+      }
+    }
+    case GET_USER_POSTS_FAILED: {
+      return {
+        ...state,
+        isLoadingUserPosts: false,
+        errLoadingUserPosts: action.payload
       }
     }
     // ADD_POST ----------------------------|
@@ -93,6 +111,26 @@ export const postsReducer = (state = initialState, action) => {
         isAddingPost: false
       }
     }
+    // EDIT_POST ----------------------------|
+    case UPDATE_POST_START: {
+      return {
+        ...state,
+        isUpdatingPost: true
+      }
+    }
+    case UPDATE_POST_SUCCESS: {
+      return {
+        ...state,
+        isUpdatingPost: false
+      }
+    }
+    case UPDATE_POST_FAILED: {
+      return {
+        ...state,
+        errorMessage: action.payload,
+        isUpdatingPost: false
+      }
+    }
     // DELETE_POST -------------------------|
     case DELETE_POST_START: {
       return {
@@ -102,15 +140,15 @@ export const postsReducer = (state = initialState, action) => {
     }
     case DELETE_POST_SUCCESS: {
       // Update Local Storage with new post
-      localStorage.setItem(
-        'posts',
-        JSON.stringify(state.posts.concat(action.payload))
-      )
+      // localStorage.setItem(
+      //   'posts',
+      //   JSON.stringify(state.posts.concat(action.payload))
+      // )
 
       return {
         ...state,
-        posts: state.posts.concat(action.payload),
-        userPosts: state.userPosts.concat(action.payload),
+        // posts: state.posts.concat(action.payload),
+        // userPosts: state.userPosts.concat(action.payload),
         isDeletingPost: false
       }
     }
