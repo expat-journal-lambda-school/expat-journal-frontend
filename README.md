@@ -31,6 +31,7 @@
   -- [Thunk](https://github.com/reduxjs/redux-thunk)
   -- [Logger](https://www.npmjs.com/package/redux-logger)
 - [React Materialize](http://react-materialize.github.io/react-materialize/?path=/story/react-materialize--welcome)
+- [Sass](https://sass-lang.com/)
 
 ## Installation
 
