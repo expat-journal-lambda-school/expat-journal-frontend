@@ -37,7 +37,7 @@ function PostList(props) {
                     </div>
                   }
                   reveal={
-                    <div>
+                    <>
                       <header>
                         <h6>{post.title}</h6>
                         <span>
@@ -51,7 +51,7 @@ function PostList(props) {
                           {post.updated_at}
                         </span>
                       </footer>
-                    </div>
+                    </>
                   }
                 >
                   <p>
