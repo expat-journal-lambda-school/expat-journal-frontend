@@ -13,7 +13,9 @@
 [Expat Journal Back End](https://github.com/expat-journal-lambda-school/expat-journal-backend)
 
 **Example User**
+<br />
 **Login**: Joanie.Welch
+<br />
 **Password**: UPrwosd21DKUy8b
 
 ## Screenshots
