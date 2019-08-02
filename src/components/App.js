@@ -23,7 +23,9 @@ class App extends Component {
     M.AutoInit()
 
     // Check localStorage for info, if present, toggles isLoggedIn state
-    this.props.checkLoggedIn()
+    if (this.props.isLoggedIn === true) {
+      this.props.checkLoggedIn()
+    }
 
     // Load in the Posts
     this.props.getPosts()
@@ -53,7 +55,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  posts: state.postsReducer.posts
+  posts: state.postsReducer.posts,
+  isLoggedIn: state.authReducer.isLoggedIn
 })
 
 const mapDispatchToProps = {

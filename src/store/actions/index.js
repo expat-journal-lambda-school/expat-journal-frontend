@@ -63,7 +63,11 @@ export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED'
 
 // CHECK IF LOGGED IN ACTION CREATOR ==================|
 //=====================================================|
-// checkLoggedIn()
+// checkLoggedIn() this action pulls in the 'id' and
+// 'token' that is stored in local storage and makes a
+// get request to the api, testing the token that is
+// stored. If the token failes it removes the user and
+// resets to a non-logged in state.
 //-----------------------------------------------------|
 export const checkLoggedIn = () => {
   return dispatch => {
@@ -94,7 +98,9 @@ export const checkLoggedIn = () => {
 
 // POST ACTION CREATORS ===============================|
 //=====================================================|
-// getPosts() - MVP - GET Request
+// getPosts() - MVP - GET Request - This action makes a
+// GET request to grab all posts from the server and
+// stores them in localStorage and in state
 //-----------------------------------------------------|
 export const getPosts = () => {
   return dispatch => {
@@ -116,7 +122,8 @@ export const getPosts = () => {
   }
 }
 
-// createPost() - MVP - POST Request
+// createPost() - MVP - POST Request - This action
+// makes a post request to the api with a post obj
 //-----------------------------------------------------|
 export const createPost = post => {
   return dispatch => {
@@ -139,7 +146,10 @@ export const createPost = post => {
   }
 }
 
-// editPost() - MVP - PUT Request
+// editPost() - MVP - PUT Request - This action makes a
+// PUT request to the server to update an item by
+// passing in a post obj with updated values and an id
+// of the post to update
 //-----------------------------------------------------|
 export const editPost = (post, id) => {
   return dispatch => {
@@ -169,13 +179,13 @@ export const editPost = (post, id) => {
   }
 }
 
-// deletePost() - MVP - DELETE Request
+// deletePost() - MVP - DELETE Request - This action
+// makes a DELETE request to the server to delete a post
+// by id
 //-----------------------------------------------------|
 export const deletePost = id => {
   return dispatch => {
     dispatch({ type: DELETE_POST_START })
-
-    console.log(id)
 
     const token = localStorage.getItem('token')
 
@@ -186,17 +196,18 @@ export const deletePost = id => {
         }
       })
       .then(res => {
-        console.log(res.data)
         dispatch({ type: DELETE_POST_SUCCESS, payload: res.data })
       })
       .catch(err => {
-        console.log(err.response)
         dispatch({ type: DELETE_POST_FAILED, payload: err.errorMessage })
       })
   }
 }
 
-// getUserPosts() - MVP - GET Request
+// getUserPosts() - MVP - GET Request - This action is
+// called to update the userPosts stored in state when
+// working in the dashboard. It gets called whenever a
+// post is successfully updated, created or deleted.
 //-----------------------------------------------------|
 export const getUserPosts = () => {
   return dispatch => {
@@ -211,7 +222,6 @@ export const getUserPosts = () => {
         }
       })
       .then(res => {
-        console.log(res)
         dispatch({ type: GET_USER_POSTS_SUCCESS, payload: res.data })
       })
       .catch(err => {
@@ -250,7 +260,6 @@ export function login(username, password) {
         dispatch({ type: LOGIN_SUCCESS, payload })
       })
       .catch(err => {
-        console.log(err.response)
         let payload = err
         if (Object.keys(err.response.data).length) {
           payload = err.response.data.errorMessage
@@ -294,7 +303,8 @@ export function register(username, password) {
   }
 }
 
-// clearAuthMsgs() - clear login/logout error/success msgs
+// clearAuthMsgs() - clear login/logout error/success
+// messages that are stored in state.
 //-----------------------------------------------------|
 export function clearAuthMsgs() {
   return {
@@ -302,7 +312,9 @@ export function clearAuthMsgs() {
   }
 }
 
-// logout() - MVP
+// logout() - MVP - this action will remove user info
+// stored in localStorage to force the login check to
+// fail and isLoggedIn state to false
 //-----------------------------------------------------|
 export function logout() {
   return {

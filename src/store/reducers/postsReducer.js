@@ -68,7 +68,6 @@ export const postsReducer = (state = initialState, action) => {
       }
     }
     case GET_USER_POSTS_SUCCESS: {
-      console.log(action.payload.posts)
       return {
         ...state,
         userPosts: action.payload.posts,
