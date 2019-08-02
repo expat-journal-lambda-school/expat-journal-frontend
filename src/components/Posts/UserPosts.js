@@ -31,8 +31,6 @@ function UserPosts(props) {
           <h4>User Posts:</h4>
           <div className="post-grid">
             {props.userPosts.map(post => {
-              // pass id into picsum api for image src
-              const randomImgId = post.id
               return (
                 <Card
                   className="hoverable"
@@ -41,7 +39,7 @@ function UserPosts(props) {
                     <div className="card-image">
                       <img
                         className="activator"
-                        src={`https://picsum.photos/id/${randomImgId}/500/500`}
+                        src={post.imageURL}
                         alt={post.title}
                       />
                       <span className="card-title activator">{post.title}</span>

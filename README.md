@@ -10,9 +10,13 @@
 <br />
 [Expat Journal Back End](https://github.com/expat-journal-lambda-school/expat-journal-backend)
 
+**Example User**
+**Login**: Joanie.Welch
+**Password**: UPrwosd21DKUy8b
+
 ## Screenshots
 
-Include logo/demo screenshot etc.
+![home screen](https://i.ibb.co/nBgXV9Y/screencapture-localhost-3000-2019-08-02-16-33-51.png)
 
 ## Tech/framework used
 
@@ -40,7 +44,6 @@ yarn start
 [Expat Journal Project](https://github.com/expat-journal-lambda-school)
 
 - [**Andrew Speer** - UI Developer - Marketing Site](https://github.com/nottolivc)
-- [**Ray Lomeli** - UI Developer - Marketing Site](https://github.com/orgs/expat-journal-lambda-school/people/rlom96)
 - [**Tyler Turnipseed** - Front End Architect](https://github.com/techturnip)
 - [**Joe Alfaro** - Back End Architect](https://github.com/Joe-Alfaro)
 

@@ -53,7 +53,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  posts: state.postsReducer.posts
+  posts: state.postsReducer.posts,
+  isLoggedIn: state.authReducer.isLoggedIn
 })
 
 const mapDispatchToProps = {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Footer() {
+function Footer() {
   const date = new Date()
 
   return (
@@ -9,3 +9,5 @@ export default function Footer() {
     </footer>
   )
 }
+
+export default Footer
