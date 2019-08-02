@@ -10,9 +10,13 @@
 <br />
 [Expat Journal Back End](https://github.com/expat-journal-lambda-school/expat-journal-backend)
 
+**Example User**
+**Login**: Joanie.Welch
+**Password**: UPrwosd21DKUy8b
+
 ## Screenshots
 
-Include logo/demo screenshot etc.
+![home screen](https://i.ibb.co/nBgXV9Y/screencapture-localhost-3000-2019-08-02-16-33-51.png)
 
 ## Tech/framework used
 

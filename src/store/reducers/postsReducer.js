@@ -70,7 +70,7 @@ export const postsReducer = (state = initialState, action) => {
     case GET_USER_POSTS_SUCCESS: {
       return {
         ...state,
-        userPosts: action.payload.posts,
+        userPosts: action.payload,
         isLoadingUserPosts: false,
         errLoadingUserPosts: null
       }

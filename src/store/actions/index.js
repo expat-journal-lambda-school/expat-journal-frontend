@@ -110,9 +110,12 @@ export const getPosts = () => {
     return axios
       .get('https://expat-journal-backend.herokuapp.com/api/posts/')
       .then(res => {
-        const payload = res.data
+        // sort data by most recently created posts
+        const payload = res.data.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        )
 
-        localStorage.setItem('posts', JSON.stringify(res.data))
+        localStorage.setItem('posts', JSON.stringify(payload))
 
         dispatch({ type: GET_POSTS_SUCCESS, payload })
       })
@@ -223,7 +226,12 @@ export const getUserPosts = () => {
         }
       })
       .then(res => {
-        dispatch({ type: GET_USER_POSTS_SUCCESS, payload: res.data })
+        // sort user posts by most recent post
+        const payload = res.data.posts.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        )
+
+        dispatch({ type: GET_USER_POSTS_SUCCESS, payload })
       })
       .catch(err => {
         dispatch({

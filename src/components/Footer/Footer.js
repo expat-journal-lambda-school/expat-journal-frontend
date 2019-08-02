@@ -1,10 +1,7 @@
 import React from 'react'
-import { Button } from 'react-materialize'
-import { withRouter } from 'react-router-dom'
 
-function Footer(props) {
+function Footer() {
   const date = new Date()
-  console.log(props)
 
   return (
     <footer className="footer grey lighten-5 grey-text">
@@ -13,4 +10,4 @@ function Footer(props) {
   )
 }
 
-export default withRouter(Footer)
+export default Footer
