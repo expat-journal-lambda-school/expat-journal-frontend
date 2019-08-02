@@ -6,6 +6,8 @@
 
 **Expat Journal** is a targeted CRUD application that allows **expatriates** a platform from which they can share their adventures around the globe.
 
+[Deployed Front End](https://expat-journal-fe.netlify.com/)
+<br />
 [Expat Journal Marketing Site](https://github.com/expat-journal-lambda-school/expat-journal-marketing-site)
 <br />
 [Expat Journal Back End](https://github.com/expat-journal-lambda-school/expat-journal-backend)
@@ -46,8 +48,6 @@ yarn start
 - [**Andrew Speer** - UI Developer - Marketing Site](https://github.com/nottolivc)
 - [**Tyler Turnipseed** - Front End Architect](https://github.com/techturnip)
 - [**Joe Alfaro** - Back End Architect](https://github.com/Joe-Alfaro)
-
-#### Anything else that seems useful
 
 ---
 
