@@ -69,12 +69,27 @@ function Navigation(props) {
         <li>
           <Link to="/posts">Posts</Link>
         </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <Link to="/register">Sign Up</Link>
-        </li>
+        {props.isLoggedIn ? (
+          <>
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+            <li>
+              <a href="#!" onClick={onClick}>
+                Logout
+              </a>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/register">Sign Up</Link>
+            </li>
+          </>
+        )}
       </ul>
     </div>
   )

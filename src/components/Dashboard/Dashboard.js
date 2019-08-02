@@ -53,6 +53,24 @@ class Dashboard extends Component {
             path="/dashboard/posts/update/:id"
             component={EditPost}
           />
+
+          <Button
+            id="mobile-actions"
+            floating
+            fab={{ direction: 'left', hoverEnabled: false }}
+            icon="more_horiz"
+            className="teal"
+            large
+          >
+            <Button
+              onClick={() => this.props.history.push('/dashboard/posts/add')}
+              tooltip="Create a new post"
+              tooltipOptions={{ position: 'top' }}
+              floating
+              icon="add"
+              className="green"
+            />
+          </Button>
         </main>
       </div>
     )
