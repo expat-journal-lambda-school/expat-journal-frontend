@@ -61,8 +61,10 @@ export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED'
 // ACTION CREATORS ====================================|
 //=====================================================|
 
+//-----------------------------------------------------|
 // CHECK IF LOGGED IN ACTION CREATOR ==================|
 //=====================================================|
+
 // checkLoggedIn() this action pulls in the 'id' and
 // 'token' that is stored in local storage and makes a
 // get request to the api, testing the token that is
@@ -75,7 +77,6 @@ export const checkLoggedIn = () => {
 
     const id = localStorage.getItem('id')
     const token = localStorage.getItem('token')
-    console.log(token)
 
     axios
       .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
@@ -84,7 +85,6 @@ export const checkLoggedIn = () => {
         }
       })
       .then(res => {
-        console.log(res)
         dispatch({ type: CHECK_LOGGED_IN_SUCCESS, payload: res.data })
       })
       .catch(err => {
@@ -98,6 +98,7 @@ export const checkLoggedIn = () => {
 
 // POST ACTION CREATORS ===============================|
 //=====================================================|
+
 // getPosts() - MVP - GET Request - This action makes a
 // GET request to grab all posts from the server and
 // stores them in localStorage and in state
@@ -297,7 +298,6 @@ export function register(username, password) {
       })
       .catch(err => {
         const payload = err.response ? err.response.data : err
-        console.log(payload)
         dispatch({ type: REGISTER_FAILED, payload })
       })
   }

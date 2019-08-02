@@ -2,19 +2,21 @@ import React from 'react'
 import { Preloader, Card } from 'react-materialize'
 
 function PostList(props) {
-  // Break the list of items into chunks
-  function chunk(arr, len) {
-    let chunks = [],
-      i = 0,
-      n = arr.length
-
-    while (i < n) {
-      chunks.push(arr.slice(i, (i += len)))
-    }
-    console.log(chunks)
-  }
-
-  console.log(chunk(props.posts, 30))
+  // |====================================|
+  // | INCOMPLETE: Create infinite scroll |
+  // |====================================|
+  //  Break the list of items into chunks
+  //  function chunk(arr, len) {
+  //    let chunks = [],
+  //      i = 0,
+  //      n = arr.length
+  //    while (i < n) {
+  //      chunks.push(arr.slice(i, (i += len)))
+  //    }
+  //    console.log(chunks)
+  //  }
+  //  console.log(chunk(props.posts, 30))
+  // |------------------------------------|
 
   if (props.posts.length) {
     return (
