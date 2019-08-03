@@ -24,6 +24,12 @@ function PostList(props) {
         <div className="row">
           <div className="post-grid">
             {props.posts.map(post => {
+              // Turn created and updated date strings to Date objects
+              // so they can be converted to a human readable format with
+              // the toLocaleDateString() method
+              const createdDate = new Date(post.created_at)
+              const updatedDate = new Date(post.updated_at)
+
               return (
                 <Card
                   className="hoverable"
@@ -49,8 +55,8 @@ function PostList(props) {
                       <p>{post.description}</p>
                       <footer>
                         <span className="meta grey-text">
-                          Posted: {post.created_at} <br /> Last Updated:{' '}
-                          {post.updated_at}
+                          Posted: {createdDate.toLocaleDateString()} <br /> Last
+                          Updated: {updatedDate.toLocaleDateString()}
                         </span>
                       </footer>
                     </>
