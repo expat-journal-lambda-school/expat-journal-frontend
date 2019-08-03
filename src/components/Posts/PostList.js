@@ -31,6 +31,7 @@ function PostList(props) {
               const updatedDate = new Date(post.updated_at)
 
               // HACK: Adjust the seeded picsum images for less 404 errors
+              // needs adjusted on the backend
               let adjustImageURL = post.imageURL
 
               if (post.imageURL.includes('picsum')) {

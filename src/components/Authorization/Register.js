@@ -19,6 +19,9 @@ class Register extends Component {
           username: '',
           password: ''
         })
+        setTimeout(() => {
+          this.props.history.push('/dashboard')
+        }, 1000)
       })
       .catch(err => console.log(err))
 
