@@ -1,7 +1,5 @@
 import React from 'react'
 import { Preloader, Card } from 'react-materialize'
-import axios from 'axios'
-import { timer } from 'rxjs'
 
 function PostList(props) {
   // |====================================|
@@ -32,11 +30,13 @@ function PostList(props) {
               const createdDate = new Date(post.created_at)
               const updatedDate = new Date(post.updated_at)
 
+              // HACK: Adjust the seeded picsum images for less 404 errors
               let adjustImageURL = post.imageURL
 
               if (post.imageURL.includes('picsum')) {
                 adjustImageURL = `https://picsum.photos/id/${post.id + 50}/300`
               }
+              // ---------------------------------------------------------|
 
               return (
                 <Card
