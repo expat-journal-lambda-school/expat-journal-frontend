@@ -30,6 +30,14 @@ function PostList(props) {
               const createdDate = new Date(post.created_at)
               const updatedDate = new Date(post.updated_at)
 
+              // HACK: Adjust the seeded picsum images for less 404 errors
+              let adjustImageURL = post.imageURL
+
+              if (post.imageURL.includes('picsum')) {
+                adjustImageURL = `https://picsum.photos/id/${post.id + 50}/300`
+              }
+              // ---------------------------------------------------------|
+
               return (
                 <Card
                   className="hoverable"
@@ -38,7 +46,7 @@ function PostList(props) {
                     <div className="card-image">
                       <img
                         className="activator"
-                        src={post.imageURL}
+                        src={adjustImageURL}
                         alt={post.title}
                       />
                       <span className="card-title activator">{post.title}</span>
