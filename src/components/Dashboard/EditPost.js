@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, Textarea, Button, Row, Col } from 'react-materialize'
+import { TextInput, Textarea, Button, Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { editPost, getPosts, getUserPosts } from '../../store/actions'
