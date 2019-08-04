@@ -15,7 +15,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { location, match, userName, history, isLoggedIn } = this.props
+    const { location, match, userName, history } = this.props
     const { path } = match
     const { pathname } = location
 
@@ -78,7 +78,6 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.authReducer.isLoggedIn,
   userId: state.authReducer.id,
   userName: state.authReducer.username,
   posts: state.postsReducer.userPosts
