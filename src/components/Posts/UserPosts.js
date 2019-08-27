@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Button, Modal, Preloader, Card } from 'react-materialize'
-import { deletePost, getUserPosts } from '../../store/actions'
+import { deletePost, getUserPosts, getPosts } from '../../store/actions'
 import { connect } from 'react-redux'
 import M from 'materialize-css'
 
@@ -16,8 +16,10 @@ function UserPosts(props) {
     props
       .deletePost(id)
       .then(() => {
-        props.getUserPosts()
-        modal.close()
+        props.getUserPosts().then(() => {
+          modal.close()
+          props.getPosts()
+        })
       })
       .catch(err => {
         console.log(err)
@@ -154,7 +156,7 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { deletePost, getUserPosts }
+    { deletePost, getUserPosts, getPosts }
   )(UserPosts)
 )
 

@@ -142,6 +142,7 @@ export const createPost = post => {
         }
       })
       .then(res => {
+        getPosts()
         dispatch({ type: ADD_POST_SUCCESS, payload: res.data })
       })
       .catch(err => {

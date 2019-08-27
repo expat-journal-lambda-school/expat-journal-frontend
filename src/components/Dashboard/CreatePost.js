@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { TextInput, Textarea, Button, Row } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { createPost, getUserPosts } from '../../store/actions'
+import { createPost, getUserPosts, getPosts } from '../../store/actions'
 
 class CreatePost extends Component {
   state = {
@@ -38,9 +38,16 @@ class CreatePost extends Component {
       .createPost(post)
       .then(() => {
         this.props
-          .getUserPosts()
+          .getPosts()
           .then(() => {
-            this.props.history.push('/dashboard')
+            this.props
+              .getUserPosts()
+              .then(() => {
+                this.props.history.push('/dashboard')
+              })
+              .catch(err => {
+                console.log(err)
+              })
           })
           .catch(err => {
             console.log(err)
@@ -128,6 +135,6 @@ class CreatePost extends Component {
 export default withRouter(
   connect(
     null,
-    { createPost, getUserPosts }
+    { createPost, getUserPosts, getPosts }
   )(CreatePost)
 )
