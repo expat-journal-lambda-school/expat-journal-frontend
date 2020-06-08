@@ -1,18 +1,20 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { login, clearAuthMsgs } from '../../store/actions'
-import { TextInput, Button } from 'react-materialize'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { login, clearAuthMsgs } from '../../store/actions';
+import { TextInput, Button } from 'react-materialize';
 
 class Login extends Component {
   state = {
     username: '',
     password: ''
-  }
+  };
 
-  onSubmit = e => {
-    e.preventDefault()
+  onSubmit = (e) => {
+    // Prevent default browser behavior
+    e.preventDefault();
 
-    const { username, password } = this.state
+    // Destructure username and password from state
+    const { username, password } = this.state;
     this.props
       .login(username, password)
       .then(() => {
@@ -20,35 +22,35 @@ class Login extends Component {
           this.setState({
             username: '',
             password: ''
-          })
+          });
         }
         setTimeout(() => {
-          this.props.history.push('/dashboard')
-        }, 1000)
+          this.props.history.push('/dashboard');
+        }, 1000);
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
 
     setTimeout(() => {
-      this.props.clearAuthMsgs()
-    }, 5000)
-  }
+      this.props.clearAuthMsgs();
+    }, 5000);
+  };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
-    })
-  }
+    });
+  };
 
   render() {
-    const { username, password } = this.state
-    const { errorMessage, successMessage } = this.props
+    const { username, password } = this.state;
+    const { errorMessage, successMessage } = this.props;
 
     return (
       <div className="authorization">
         <div className="content-wrapper">
           <div className="content">
             <h2>Login</h2>
-            <form onSubmit={e => this.onSubmit(e)}>
+            <form onSubmit={(e) => this.onSubmit(e)}>
               {errorMessage && <p className="err">{errorMessage}</p>}
               {successMessage && <p className="success">{successMessage}</p>}
               <TextInput
@@ -70,22 +72,19 @@ class Login extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.authReducer.isLoading,
   errorMessage: state.authReducer.loginErr,
   successMessage: state.authReducer.loginSuccess
-})
+});
 
 const mapDispatchToProps = {
   login,
   clearAuthMsgs
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

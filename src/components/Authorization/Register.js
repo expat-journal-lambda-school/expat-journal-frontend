@@ -1,55 +1,93 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { register, clearAuthMsgs } from '../../store/actions'
-import { TextInput, Button } from 'react-materialize'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { register, clearAuthMsgs } from '../../store/actions';
+import { TextInput, Button } from 'react-materialize';
 
 class Register extends Component {
   state = {
     username: '',
-    password: ''
-  }
+    password: '',
+    fname: '',
+    lname: '',
+    email: ''
+  };
 
-  onSubmit = e => {
-    e.preventDefault()
-    const { username, password } = this.state
+  onSubmit = (e) => {
+    // Prevent default browser behavior
+    e.preventDefault();
+
+    // user object from state
+    const user = this.state;
+
+    // Call the register action with the user info
     this.props
-      .register(username, password)
+      .register(user)
       .then(() => {
+        // On successful login, we'll clear the state/forms
         this.setState({
           username: '',
-          password: ''
-        })
+          password: '',
+          fname: '',
+          lname: '',
+          email: ''
+        });
+        // After 1 second we'll push to the dashboard route
         setTimeout(() => {
-          this.props.history.push('/dashboard')
-        }, 1000)
+          this.props.history.push('/dashboard');
+        }, 1000);
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err)); // handle errors
 
     setTimeout(() => {
-      this.props.clearAuthMsgs()
-    }, 5000)
-  }
+      this.props.clearAuthMsgs();
+    }, 5000);
+  };
 
-  onChange = e => {
+  // On Change handler handles form interaction
+  onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
-    })
-  }
+    });
+  };
 
   render() {
-    const { username, password } = this.state
-    const { errorMessage, successMsg } = this.props
+    // destructure username and password from state
+    const { username, password, fname, lname, email } = this.state;
+
+    // destructure error/success msgs from props
+    const { errorMessage, successMsg } = this.props;
 
     return (
       <div className="authorization">
         <div className="content-wrapper">
           <div className="content">
             <h2>Sign Up</h2>
-            <form onSubmit={e => this.onSubmit(e)}>
+            <form onSubmit={(e) => this.onSubmit(e)}>
               {errorMessage && <p className="err">{errorMessage.detail}</p>}
 
               {successMsg && <p className="success">Successfully Registered</p>}
 
+              <TextInput
+                onChange={this.onChange}
+                type="text"
+                label="First Name"
+                name="fname"
+                value={fname}
+              />
+              <TextInput
+                onChange={this.onChange}
+                type="text"
+                label="Last Name"
+                name="lname"
+                value={lname}
+              />
+              <TextInput
+                onChange={this.onChange}
+                type="email"
+                label="Email"
+                name="email"
+                value={email}
+              />
               <TextInput
                 onChange={this.onChange}
                 type="text"
@@ -64,27 +102,25 @@ class Register extends Component {
                 name="password"
                 value={password}
               />
+
               <Button type="submit">Register</Button>
             </form>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.authReducer.isLoading,
   errorMessage: state.authReducer.regErr,
   successMsg: state.authReducer.regSuccess
-})
+});
 
 const mapDispatchToProps = {
   register,
   clearAuthMsgs
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Register)
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

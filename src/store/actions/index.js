@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 //=====================================================|
 // ACTION TYPES =======================================|
@@ -6,56 +6,56 @@ import axios from 'axios'
 
 // GET_POSTS
 //-----------------------------------------------------|
-export const GET_POSTS_START = 'GET_POSTS_START'
-export const GET_POSTS_SUCCESS = 'GET_POSTS_SUCCESS'
-export const GET_POSTS_FAILED = 'GET_POSTS_FAILED'
+export const GET_POSTS_START = 'GET_POSTS_START';
+export const GET_POSTS_SUCCESS = 'GET_POSTS_SUCCESS';
+export const GET_POSTS_FAILED = 'GET_POSTS_FAILED';
 
 // GET_USER_POSTS
 //-----------------------------------------------------|
-export const GET_USER_POSTS_START = 'GET_USER_POSTS_START'
-export const GET_USER_POSTS_SUCCESS = 'GET_USER_POSTS_SUCCESS'
-export const GET_USER_POSTS_FAILED = 'GET_USER_POSTS_FAILED'
+export const GET_USER_POSTS_START = 'GET_USER_POSTS_START';
+export const GET_USER_POSTS_SUCCESS = 'GET_USER_POSTS_SUCCESS';
+export const GET_USER_POSTS_FAILED = 'GET_USER_POSTS_FAILED';
 
 // ADD_POST
 //-----------------------------------------------------|
-export const ADD_POST_START = 'ADD_POST_START'
-export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
-export const ADD_POST_FAILED = 'ADD_POST_FAILED'
+export const ADD_POST_START = 'ADD_POST_START';
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
+export const ADD_POST_FAILED = 'ADD_POST_FAILED';
 
 // UPDATE_POST
 //-----------------------------------------------------|
-export const UPDATE_POST_START = 'UPDATE_POST_START'
-export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS'
-export const UPDATE_POST_FAILED = 'UPDATE_POST_FAILED'
+export const UPDATE_POST_START = 'UPDATE_POST_START';
+export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
+export const UPDATE_POST_FAILED = 'UPDATE_POST_FAILED';
 
 // DELETE_POST
 //-----------------------------------------------------|
-export const DELETE_POST_START = 'DELETE_POST_START'
-export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS'
-export const DELETE_POST_FAILED = 'DELETE_POST_FAILED'
+export const DELETE_POST_START = 'DELETE_POST_START';
+export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
+export const DELETE_POST_FAILED = 'DELETE_POST_FAILED';
 
 // LOGIN/LOGOUT
 //-----------------------------------------------------|
-export const LOGIN_START = 'LOGIN_START'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILED = 'LOGIN_FAILED'
-export const LOGOUT = 'LOGOUT'
+export const LOGIN_START = 'LOGIN_START';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const LOGOUT = 'LOGOUT';
 
 // REGISTER
 //-----------------------------------------------------|
-export const REGISTER_START = 'REGISTER_START'
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
-export const REGISTER_FAILED = 'REGISTER_FAILED'
+export const REGISTER_START = 'REGISTER_START';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILED = 'REGISTER_FAILED';
 
 // CLEAR_AUTH_MESSAGES
 //-----------------------------------------------------|
-export const CLEAR_AUTH_MESSAGES = 'CLEAR_MESSAGES'
+export const CLEAR_AUTH_MESSAGES = 'CLEAR_MESSAGES';
 
 // CHECK_LOGGED_IN
 //-----------------------------------------------------|
-export const CHECK_LOGGED_IN_START = 'CHECK_LOGGED_IN_START'
-export const CHECK_LOGGED_IN_SUCCESS = 'CHECK_LOGGED_IN_SUCCESS'
-export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED'
+export const CHECK_LOGGED_IN_START = 'CHECK_LOGGED_IN_START';
+export const CHECK_LOGGED_IN_SUCCESS = 'CHECK_LOGGED_IN_SUCCESS';
+export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED';
 
 //=====================================================|
 // ACTION CREATORS ====================================|
@@ -72,11 +72,11 @@ export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED'
 // resets to a non-logged in state.
 //-----------------------------------------------------|
 export const checkLoggedIn = () => {
-  return dispatch => {
-    dispatch({ type: CHECK_LOGGED_IN_START })
+  return (dispatch) => {
+    dispatch({ type: CHECK_LOGGED_IN_START });
 
-    const id = localStorage.getItem('id')
-    const token = localStorage.getItem('token')
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
 
     axios
       .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
@@ -84,17 +84,17 @@ export const checkLoggedIn = () => {
           Authorization: token
         }
       })
-      .then(res => {
-        dispatch({ type: CHECK_LOGGED_IN_SUCCESS, payload: res.data })
+      .then((res) => {
+        dispatch({ type: CHECK_LOGGED_IN_SUCCESS, payload: res.data });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: CHECK_LOGGED_IN_FAILED,
           payload: 'Login expired! Please sign in again.'
-        })
-      })
-  }
-}
+        });
+      });
+  };
+};
 
 // POST ACTION CREATORS ===============================|
 //=====================================================|
@@ -104,36 +104,36 @@ export const checkLoggedIn = () => {
 // stores them in localStorage and in state
 //-----------------------------------------------------|
 export const getPosts = () => {
-  return dispatch => {
-    dispatch({ type: GET_POSTS_START })
+  return (dispatch) => {
+    dispatch({ type: GET_POSTS_START });
 
     return axios
       .get('https://expat-journal-backend.herokuapp.com/api/posts/')
-      .then(res => {
+      .then((res) => {
         // sort data by most recently created posts
         const payload = res.data.sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
-        )
+        );
 
-        localStorage.setItem('posts', JSON.stringify(payload))
+        localStorage.setItem('posts', JSON.stringify(payload));
 
-        dispatch({ type: GET_POSTS_SUCCESS, payload })
+        dispatch({ type: GET_POSTS_SUCCESS, payload });
       })
-      .catch(err => {
-        const payload = err.response ? err.response.data : err
-        dispatch({ type: GET_POSTS_FAILED, payload })
-      })
-  }
-}
+      .catch((err) => {
+        const payload = err.response ? err.response.data : err;
+        dispatch({ type: GET_POSTS_FAILED, payload });
+      });
+  };
+};
 
 // createPost() - MVP - POST Request - This action
 // makes a post request to the api with a post obj
 //-----------------------------------------------------|
-export const createPost = post => {
-  return dispatch => {
-    dispatch({ type: ADD_POST_START })
+export const createPost = (post) => {
+  return (dispatch) => {
+    dispatch({ type: ADD_POST_START });
 
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
 
     return axios
       .post('https://expat-journal-backend.herokuapp.com/api/posts/', post, {
@@ -141,15 +141,15 @@ export const createPost = post => {
           Authorization: token
         }
       })
-      .then(res => {
-        getPosts()
-        dispatch({ type: ADD_POST_SUCCESS, payload: res.data })
+      .then((res) => {
+        getPosts();
+        dispatch({ type: ADD_POST_SUCCESS, payload: res.data });
       })
-      .catch(err => {
-        dispatch({ type: ADD_POST_FAILED, payload: err.errorMessage })
-      })
-  }
-}
+      .catch((err) => {
+        dispatch({ type: ADD_POST_FAILED, payload: err.errorMessage });
+      });
+  };
+};
 
 // editPost() - MVP - PUT Request - This action makes a
 // PUT request to the server to update an item by
@@ -157,10 +157,10 @@ export const createPost = post => {
 // of the post to update
 //-----------------------------------------------------|
 export const editPost = (post, id) => {
-  return dispatch => {
-    dispatch({ type: UPDATE_POST_START })
+  return (dispatch) => {
+    dispatch({ type: UPDATE_POST_START });
 
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
 
     return axios
       .put(
@@ -172,27 +172,27 @@ export const editPost = (post, id) => {
           }
         }
       )
-      .then(res => {
-        dispatch({ type: UPDATE_POST_SUCCESS, payload: res.data })
+      .then((res) => {
+        dispatch({ type: UPDATE_POST_SUCCESS, payload: res.data });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: UPDATE_POST_FAILED,
           payload: err.response.data.error_message
-        })
-      })
-  }
-}
+        });
+      });
+  };
+};
 
 // deletePost() - MVP - DELETE Request - This action
 // makes a DELETE request to the server to delete a post
 // by id
 //-----------------------------------------------------|
-export const deletePost = id => {
-  return dispatch => {
-    dispatch({ type: DELETE_POST_START })
+export const deletePost = (id) => {
+  return (dispatch) => {
+    dispatch({ type: DELETE_POST_START });
 
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
 
     return axios
       .delete(`https://expat-journal-backend.herokuapp.com/api/posts/${id}`, {
@@ -200,14 +200,14 @@ export const deletePost = id => {
           Authorization: token
         }
       })
-      .then(res => {
-        dispatch({ type: DELETE_POST_SUCCESS, payload: res.data })
+      .then((res) => {
+        dispatch({ type: DELETE_POST_SUCCESS, payload: res.data });
       })
-      .catch(err => {
-        dispatch({ type: DELETE_POST_FAILED, payload: err.errorMessage })
-      })
-  }
-}
+      .catch((err) => {
+        dispatch({ type: DELETE_POST_FAILED, payload: err.errorMessage });
+      });
+  };
+};
 
 // getUserPosts() - MVP - GET Request - This action is
 // called to update the userPosts stored in state when
@@ -215,10 +215,10 @@ export const deletePost = id => {
 // post is successfully updated, created or deleted.
 //-----------------------------------------------------|
 export const getUserPosts = () => {
-  return dispatch => {
-    dispatch({ type: GET_USER_POSTS_START })
-    const id = localStorage.getItem('id')
-    const token = localStorage.getItem('token')
+  return (dispatch) => {
+    dispatch({ type: GET_USER_POSTS_START });
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
 
     return axios
       .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
@@ -226,90 +226,89 @@ export const getUserPosts = () => {
           Authorization: token
         }
       })
-      .then(res => {
+      .then((res) => {
         // sort user posts by most recent post
         const payload = res.data.posts.sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
-        )
+        );
 
-        dispatch({ type: GET_USER_POSTS_SUCCESS, payload })
+        dispatch({ type: GET_USER_POSTS_SUCCESS, payload });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({
           type: GET_USER_POSTS_FAILED,
           payload: err.response.data.error_message
-        })
-      })
-  }
-}
+        });
+      });
+  };
+};
 
 // AUTH ACTION CREATORS ===============================|
 //=====================================================|
 // login() - MVP - GET Request
 //-----------------------------------------------------|
 export function login(username, password) {
-  return dispatch => {
-    dispatch({ type: LOGIN_START })
+  return (dispatch) => {
+    dispatch({ type: LOGIN_START });
 
     return axios
-      .post('https://expat-journal-backend.herokuapp.com/api/auth/login/', {
+      .post('http://localhost:5000/api/auth/login/', {
         username,
         password
       })
-      .then(res => {
+      .then((res) => {
         // store user in localStorage
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('username', res.data.username)
-        localStorage.setItem('id', res.data.id)
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('username', res.data.username);
+        localStorage.setItem('id', res.data.id);
 
         const payload = {
           id: res.data.id,
           username: res.data.username
-        }
+        };
 
-        dispatch({ type: LOGIN_SUCCESS, payload })
+        dispatch({ type: LOGIN_SUCCESS, payload });
       })
-      .catch(err => {
-        let payload = err
+      .catch((err) => {
+        let payload = err;
         if (Object.keys(err.response.data).length) {
-          payload = err.response.data.errorMessage
+          payload = err.response.data.errorMessage;
         } else {
-          payload = 'Please review your login information'
+          payload = 'Please review your login information';
         }
-        dispatch({ type: LOGIN_FAILED, payload })
-      })
-  }
+        dispatch({ type: LOGIN_FAILED, payload });
+      });
+  };
 }
 
 // register() - MVP - POST Request
 //-----------------------------------------------------|
-export function register(username, password) {
-  return dispatch => {
-    dispatch({ type: REGISTER_START })
+export function register(user) {
+  return (dispatch) => {
+    dispatch({ type: REGISTER_START });
+
+    console.log(user);
 
     return axios
-      .post('https://expat-journal-backend.herokuapp.com/api/auth/register', {
-        username: username,
-        password: password
-      })
-      .then(res => {
+      .post('http://localhost:5000/api/auth/register', { ...user })
+      .then((res) => {
         // store user in localStorage
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('username', res.data.username)
-        localStorage.setItem('id', res.data.id)
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('username', res.data.username);
+        localStorage.setItem('id', res.data.id);
 
         const payload = {
           username: res.data.username,
           id: res.data.id,
           successMsg: res.statusText
-        }
-        dispatch({ type: REGISTER_SUCCESS, payload })
+        };
+        dispatch({ type: REGISTER_SUCCESS, payload });
       })
-      .catch(err => {
-        const payload = err.response ? err.response.data : err
-        dispatch({ type: REGISTER_FAILED, payload })
-      })
-  }
+      .catch((err) => {
+        const payload = err.response ? err.response.data : err;
+        dispatch({ type: REGISTER_FAILED, payload });
+      });
+  };
 }
 
 // clearAuthMsgs() - clear login/logout error/success
@@ -318,7 +317,7 @@ export function register(username, password) {
 export function clearAuthMsgs() {
   return {
     type: CLEAR_AUTH_MESSAGES
-  }
+  };
 }
 
 // logout() - MVP - this action will remove user info
@@ -328,5 +327,5 @@ export function clearAuthMsgs() {
 export function logout() {
   return {
     type: LOGOUT
-  }
+  };
 }
