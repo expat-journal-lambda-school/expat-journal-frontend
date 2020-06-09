@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { TextInput, Textarea, Button, Row } from 'react-materialize'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { createPost, getUserPosts, getPosts } from '../../store/actions'
+import React, { Component } from 'react';
+import { TextInput, Textarea, Button, Row } from 'react-materialize';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { createPost, getUserPosts, getPosts } from '../../store/actions';
 
 class CreatePost extends Component {
   state = {
@@ -10,29 +10,29 @@ class CreatePost extends Component {
     title: '',
     city: '',
     country: '',
-    description: '',
+    content: '',
     imageURL: ''
-  }
+  };
 
   componentDidMount() {
     this.setState({
       user_id: Number(localStorage.getItem('id'))
-    })
+    });
   }
 
-  onSubmit = e => {
-    e.preventDefault()
+  onSubmit = (e) => {
+    e.preventDefault();
 
-    const { user_id, city, country, imageURL, title, description } = this.state
+    const { user_id, city, country, imageURL, title, content } = this.state;
 
     const post = {
       user_id,
       title,
       city,
       country,
-      description,
+      content,
       imageURL
-    }
+    };
 
     this.props
       .createPost(post)
@@ -43,26 +43,26 @@ class CreatePost extends Component {
             this.props
               .getUserPosts()
               .then(() => {
-                this.props.history.push('/dashboard')
+                this.props.history.push('/dashboard');
               })
-              .catch(err => {
-                console.log(err)
-              })
+              .catch((err) => {
+                console.log(err);
+              });
           })
-          .catch(err => {
-            console.log(err)
-          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
-      .catch(err => {
-        console.log(err)
-      })
-  }
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -116,9 +116,9 @@ class CreatePost extends Component {
             <Textarea
               s={12}
               type="text"
-              name="description"
+              name="content"
               label="Description *"
-              value={this.state.description}
+              value={this.state.content}
               onChange={this.onChange}
               required
               validate
@@ -128,13 +128,10 @@ class CreatePost extends Component {
           </Row>
         </form>
       </div>
-    )
+    );
   }
 }
 
 export default withRouter(
-  connect(
-    null,
-    { createPost, getUserPosts, getPosts }
-  )(CreatePost)
-)
+  connect(null, { createPost, getUserPosts, getPosts })(CreatePost)
+);

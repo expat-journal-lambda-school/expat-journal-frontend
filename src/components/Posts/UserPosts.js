@@ -1,29 +1,29 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { Button, Modal, Preloader, Card } from 'react-materialize'
-import { deletePost, getUserPosts, getPosts } from '../../store/actions'
-import { connect } from 'react-redux'
-import M from 'materialize-css'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { Button, Modal, Preloader, Card } from 'react-materialize';
+import { deletePost, getUserPosts, getPosts } from '../../store/actions';
+import { connect } from 'react-redux';
+import M from 'materialize-css';
 
 function UserPosts(props) {
   function deletePost(e, id) {
-    e.preventDefault()
+    e.preventDefault();
 
-    let elem = e.target.parentNode.parentNode
-    let modal = M.Modal.getInstance(elem)
+    let elem = e.target.parentNode.parentNode;
+    let modal = M.Modal.getInstance(elem);
 
-    console.log(elem)
+    console.log(elem);
     props
       .deletePost(id)
       .then(() => {
         props.getUserPosts().then(() => {
-          modal.close()
-          props.getPosts()
-        })
+          modal.close();
+          props.getPosts();
+        });
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   if (props.userPosts.length) {
@@ -32,7 +32,8 @@ function UserPosts(props) {
         <div className="row">
           <h4>User Posts:</h4>
           <div className="post-grid">
-            {props.userPosts.map(post => {
+            {props.userPosts.map((post) => {
+              console.log(post);
               return (
                 <Card
                   className="hoverable"
@@ -59,7 +60,7 @@ function UserPosts(props) {
                         actions={[
                           <Button
                             className="red"
-                            onClick={e => deletePost(e, post.id)}
+                            onClick={(e) => deletePost(e, post.id)}
                           >
                             I am sure
                           </Button>,
@@ -80,15 +81,15 @@ function UserPosts(props) {
                           {post.city}, {post.country}
                         </span>
                       </header>
-                      <p>{post.description}</p>
+                      <p>{post.content}</p>
                       <footer>
                         <Button
-                          onClick={e => {
-                            e.preventDefault()
+                          onClick={(e) => {
+                            e.preventDefault();
 
                             props.history.push(
                               `${props.match.path}/posts/update/${post.id}`
-                            )
+                            );
                           }}
                         >
                           Edit Post
@@ -109,12 +110,12 @@ function UserPosts(props) {
                     {post.country}
                   </p>
                 </Card>
-              )
+              );
             })}
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   // if userPosts is 0 and state isLoading is true then display the loading indicator
@@ -127,7 +128,7 @@ function UserPosts(props) {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -146,19 +147,16 @@ function UserPosts(props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.postsReducer.isLoadingUserPosts
-})
+});
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    { deletePost, getUserPosts, getPosts }
-  )(UserPosts)
-)
+  connect(mapStateToProps, { deletePost, getUserPosts, getPosts })(UserPosts)
+);
 
 /*
 

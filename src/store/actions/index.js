@@ -79,7 +79,7 @@ export const checkLoggedIn = () => {
     const token = localStorage.getItem('token');
 
     axios
-      .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
+      .get(`http://localhost:5000/api/users/${id}`, {
         headers: {
           Authorization: token
         }
@@ -108,7 +108,7 @@ export const getPosts = () => {
     dispatch({ type: GET_POSTS_START });
 
     return axios
-      .get('https://expat-journal-backend.herokuapp.com/api/posts/')
+      .get('http://localhost:5000/api/posts/')
       .then((res) => {
         // sort data by most recently created posts
         const payload = res.data.sort(
@@ -136,7 +136,7 @@ export const createPost = (post) => {
     const token = localStorage.getItem('token');
 
     return axios
-      .post('https://expat-journal-backend.herokuapp.com/api/posts/', post, {
+      .post('http://localhost:5000/api/posts/', post, {
         headers: {
           Authorization: token
         }
@@ -163,15 +163,11 @@ export const editPost = (post, id) => {
     const token = localStorage.getItem('token');
 
     return axios
-      .put(
-        `https://expat-journal-backend.herokuapp.com/api/posts/${id}`,
-        post,
-        {
-          headers: {
-            Authorization: token
-          }
+      .put(`http://localhost:5000/api/posts/${id}`, post, {
+        headers: {
+          Authorization: token
         }
-      )
+      })
       .then((res) => {
         dispatch({ type: UPDATE_POST_SUCCESS, payload: res.data });
       })
@@ -195,7 +191,7 @@ export const deletePost = (id) => {
     const token = localStorage.getItem('token');
 
     return axios
-      .delete(`https://expat-journal-backend.herokuapp.com/api/posts/${id}`, {
+      .delete(`http://localhost:5000/api/posts/${id}`, {
         headers: {
           Authorization: token
         }
@@ -221,14 +217,14 @@ export const getUserPosts = () => {
     const token = localStorage.getItem('token');
 
     return axios
-      .get(`https://expat-journal-backend.herokuapp.com/api/users/${id}`, {
+      .get(`http://localhost:5000/api/users/${id}/posts`, {
         headers: {
           Authorization: token
         }
       })
       .then((res) => {
         // sort user posts by most recent post
-        const payload = res.data.posts.sort(
+        const payload = res.data.sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
 
@@ -237,7 +233,7 @@ export const getUserPosts = () => {
       .catch((err) => {
         dispatch({
           type: GET_USER_POSTS_FAILED,
-          payload: err.response.data.error_message
+          payload: err.message
         });
       });
   };

@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { TextInput, Textarea, Button, Row } from 'react-materialize'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { editPost, getPosts, getUserPosts } from '../../store/actions'
+import React, { Component } from 'react';
+import { TextInput, Textarea, Button, Row } from 'react-materialize';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { editPost, getPosts, getUserPosts } from '../../store/actions';
 
 class EditPost extends Component {
   state = {
@@ -10,18 +10,18 @@ class EditPost extends Component {
     title: '',
     city: '',
     country: '',
-    description: '',
+    content: '',
     imageURL: ''
-  }
+  };
 
   componentDidMount() {
-    const posts = JSON.parse(localStorage.getItem('posts'))
+    const posts = JSON.parse(localStorage.getItem('posts'));
 
-    const post = posts.filter(post => {
-      return post.id === Number(this.props.match.params.id)
-    })
+    const post = posts.filter((post) => {
+      return post.id === Number(this.props.match.params.id);
+    });
 
-    const { id, user_id, title, city, country, description, imageURL } = post[0]
+    const { id, user_id, title, city, country, content, imageURL } = post[0];
 
     if (user_id === Number(localStorage.getItem('id'))) {
       this.setState({
@@ -30,54 +30,46 @@ class EditPost extends Component {
         title,
         city,
         country,
-        description,
+        content,
         imageURL
-      })
+      });
     }
   }
 
-  onSubmit = e => {
-    e.preventDefault()
+  onSubmit = (e) => {
+    e.preventDefault();
 
-    const {
-      id,
-      user_id,
-      city,
-      country,
-      imageURL,
-      title,
-      description
-    } = this.state
+    const { id, user_id, city, country, imageURL, title, content } = this.state;
 
     const post = {
       user_id,
       title,
       city,
       country,
-      description,
+      content,
       imageURL
-    }
+    };
 
-    const postId = id
+    const postId = id;
 
     this.props
       .editPost(post, postId)
       .then(() => {
         this.props.getUserPosts().then(() => {
-          this.props.getPosts()
-          this.props.history.push('/dashboard')
-        })
+          this.props.getPosts();
+          this.props.history.push('/dashboard');
+        });
       })
-      .catch(err => {
-        console.log(err)
-      })
-  }
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -131,9 +123,9 @@ class EditPost extends Component {
             <Textarea
               s={12}
               type="text"
-              name="description"
+              name="content"
               label="Description *"
-              value={this.state.description}
+              value={this.state.content}
               onChange={this.onChange}
               required
               validate
@@ -143,17 +135,14 @@ class EditPost extends Component {
           </Row>
         </form>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   posts: state.postsReducer.userPosts
-})
+});
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    { editPost, getPosts, getUserPosts }
-  )(EditPost)
-)
+  connect(mapStateToProps, { editPost, getPosts, getUserPosts })(EditPost)
+);
