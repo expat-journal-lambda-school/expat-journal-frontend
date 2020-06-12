@@ -3,72 +3,69 @@ import axios from 'axios';
 //=====================================================|
 // ACTION TYPES =======================================|
 //=====================================================|
-
+//-----------------------------------------------------|
 // GET_POSTS
 //-----------------------------------------------------|
 export const GET_POSTS_START = 'GET_POSTS_START';
 export const GET_POSTS_SUCCESS = 'GET_POSTS_SUCCESS';
 export const GET_POSTS_FAILED = 'GET_POSTS_FAILED';
-
+//-----------------------------------------------------|
 // GET_USER_POSTS
 //-----------------------------------------------------|
 export const GET_USER_POSTS_START = 'GET_USER_POSTS_START';
 export const GET_USER_POSTS_SUCCESS = 'GET_USER_POSTS_SUCCESS';
 export const GET_USER_POSTS_FAILED = 'GET_USER_POSTS_FAILED';
-
+//-----------------------------------------------------|
 // ADD_POST
 //-----------------------------------------------------|
 export const ADD_POST_START = 'ADD_POST_START';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILED = 'ADD_POST_FAILED';
-
+//-----------------------------------------------------|
 // UPDATE_POST
 //-----------------------------------------------------|
 export const UPDATE_POST_START = 'UPDATE_POST_START';
 export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
 export const UPDATE_POST_FAILED = 'UPDATE_POST_FAILED';
-
+//-----------------------------------------------------|
 // DELETE_POST
 //-----------------------------------------------------|
 export const DELETE_POST_START = 'DELETE_POST_START';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
 export const DELETE_POST_FAILED = 'DELETE_POST_FAILED';
-
+//-----------------------------------------------------|
 // LOGIN/LOGOUT
 //-----------------------------------------------------|
 export const LOGIN_START = 'LOGIN_START';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 export const LOGOUT = 'LOGOUT';
-
+//-----------------------------------------------------|
 // REGISTER
 //-----------------------------------------------------|
 export const REGISTER_START = 'REGISTER_START';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILED = 'REGISTER_FAILED';
-
+//-----------------------------------------------------|
 // CLEAR_AUTH_MESSAGES
 //-----------------------------------------------------|
 export const CLEAR_AUTH_MESSAGES = 'CLEAR_MESSAGES';
-
+//-----------------------------------------------------|
 // CHECK_LOGGED_IN
 //-----------------------------------------------------|
 export const CHECK_LOGGED_IN_START = 'CHECK_LOGGED_IN_START';
 export const CHECK_LOGGED_IN_SUCCESS = 'CHECK_LOGGED_IN_SUCCESS';
 export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED';
-
 //=====================================================|
 // ACTION CREATORS ====================================|
 //=====================================================|
-
 //-----------------------------------------------------|
 // CHECK IF LOGGED IN ACTION CREATOR ==================|
 //=====================================================|
-
 // checkLoggedIn() this action pulls in the 'id' and
 // 'token' that is stored in local storage and makes a
 // get request to the api, testing the token that is
-// stored. If the token failes it removes the user and
+// stored. If the token fails it removes the user and
 // resets to a non-logged in state.
 //-----------------------------------------------------|
 export const checkLoggedIn = () => {
@@ -95,10 +92,10 @@ export const checkLoggedIn = () => {
       });
   };
 };
-
+//-----------------------------------------------------|
 // POST ACTION CREATORS ===============================|
 //=====================================================|
-
+//-----------------------------------------------------|
 // getPosts() - MVP - GET Request - This action makes a
 // GET request to grab all posts from the server and
 // stores them in localStorage and in state
@@ -125,14 +122,17 @@ export const getPosts = () => {
       });
   };
 };
-
-// createPost() - MVP - POST Request - This action
-// makes a post request to the api with a post obj
+//-----------------------------------------------------|
+// createPost() - POST Request - RESTRICTED ENDPOINT
+// This action creates a post using the api with by
+// passing a post obj to a 'restricted' endpoint
 //-----------------------------------------------------|
 export const createPost = (post) => {
   return (dispatch) => {
+    // dispatch the start action
     dispatch({ type: ADD_POST_START });
 
+    // grab the token from local storage
     const token = localStorage.getItem('token');
 
     return axios
@@ -150,11 +150,12 @@ export const createPost = (post) => {
       });
   };
 };
-
-// editPost() - MVP - PUT Request - This action makes a
-// PUT request to the server to update an item by
-// passing in a post obj with updated values and an id
-// of the post to update
+//-----------------------------------------------------|
+// editPost() - PUT Request - RESTRICTED ENDPOINT
+// This action makes a request to the 'restricted' API
+// endpoint to edit a post by passing in a post obj
+// with the updated values and an id of the post to
+// update.
 //-----------------------------------------------------|
 export const editPost = (post, id) => {
   return (dispatch) => {
@@ -179,10 +180,10 @@ export const editPost = (post, id) => {
       });
   };
 };
-
-// deletePost() - MVP - DELETE Request - This action
-// makes a DELETE request to the server to delete a post
-// by id
+//-----------------------------------------------------|
+// deletePost() - DELETE Request - RESTRICTED ENDPOINT
+// This action makes a DELETE request to the server to
+// delete a post by id
 //-----------------------------------------------------|
 export const deletePost = (id) => {
   return (dispatch) => {
@@ -204,11 +205,15 @@ export const deletePost = (id) => {
       });
   };
 };
-
-// getUserPosts() - MVP - GET Request - This action is
-// called to update the userPosts stored in state when
-// working in the dashboard. It gets called whenever a
-// post is successfully updated, created or deleted.
+//-----------------------------------------------------|
+// getUserPosts() - GET Request - RESTRICTED ENDPOINT
+// This action is called to update the userPosts stored
+// in state when working in the dashboard. It gets
+// called whenever a post is successfully updated,
+// created or deleted.
+//-----------------------------------------------------|
+// TODO: Remove restriction for the action could be
+// potentially used in more than the case provided.
 //-----------------------------------------------------|
 export const getUserPosts = () => {
   return (dispatch) => {
@@ -238,10 +243,12 @@ export const getUserPosts = () => {
       });
   };
 };
-
+//-----------------------------------------------------|
 // AUTH ACTION CREATORS ===============================|
 //=====================================================|
-// login() - MVP - GET Request
+// login() - POST Request
+// Sends the username and password to the backend api
+// for validation and authentication
 //-----------------------------------------------------|
 export function login(username, password) {
   return (dispatch) => {
@@ -276,8 +283,10 @@ export function login(username, password) {
       });
   };
 }
-
-// register() - MVP - POST Request
+//-----------------------------------------------------|
+// register() - POST Request
+// Sends the user object to the backend api to add a
+// user to the db
 //-----------------------------------------------------|
 export function register(user) {
   return (dispatch) => {
@@ -306,7 +315,7 @@ export function register(user) {
       });
   };
 }
-
+//-----------------------------------------------------|
 // clearAuthMsgs() - clear login/logout error/success
 // messages that are stored in state.
 //-----------------------------------------------------|
@@ -315,7 +324,7 @@ export function clearAuthMsgs() {
     type: CLEAR_AUTH_MESSAGES
   };
 }
-
+//-----------------------------------------------------|
 // logout() - MVP - this action will remove user info
 // stored in localStorage to force the login check to
 // fail and isLoggedIn state to false

@@ -13,28 +13,46 @@ class PostList extends Component {
     // grab posts from props
     const { posts } = this.props;
 
-    // call chunk method to break posts into chunks
+    // call chunk helper method to break posts into chunks
     const chunkedPosts = this.chunk(posts, 18);
+
+    // we determine the total pages needed for pagination
+    // menu by using the length of the chunks array
     const totalPages = chunkedPosts.length;
 
-    // manage pagination info with state
+    // we update state with the chunkedPosts and the
+    // resulting length of the chunkedPosts arr for
+    // the totalPages
     this.setState({
       chunkedPosts,
       totalPages
     });
   }
 
-  // break the list of items into chunks
+  // Helper Function:
+  // Breaks a list of items into chunks, size is determined
+  // by the len parameter
   chunk = (arr, len) => {
+    // initialize chunks arr
     let chunks = [],
       i = 0,
       n = arr.length;
+
+    // while i is less than array length we'll loop through
+    // the array breaking the array into chunks and pushing
+    // the array chunks into the chunks array
     while (i < n) {
+      // slice the array into chunks and push them to the array
+      // chunk size is determined by the value stored in len
       chunks.push(arr.slice(i, (i += len)));
     }
+    // return the chunks array
     return chunks;
   };
 
+  // Pagination Method:
+  // called when we click on a pagination link, passing in
+  // the page number and updating the current page in state
   getPage = (page) => {
     // set page in state to the page number returned from
     // the Pagination component
