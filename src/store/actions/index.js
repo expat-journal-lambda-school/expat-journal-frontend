@@ -59,6 +59,10 @@ export const CHECK_LOGGED_IN_FAILED = 'CHECK_LOGGED_IN_FAILED';
 //=====================================================|
 // ACTION CREATORS ====================================|
 //=====================================================|
+// Base URL (Production):
+const baseURL = 'https://be-expat-journal.herokuapp.com';
+// Base URL (Local):
+// const baseURL = 'http://localhost:5000';
 //-----------------------------------------------------|
 // CHECK IF LOGGED IN ACTION CREATOR ==================|
 //=====================================================|
@@ -76,7 +80,7 @@ export const checkLoggedIn = () => {
     const token = localStorage.getItem('token');
 
     axios
-      .get(`http://localhost:5000/api/users/${id}`, {
+      .get(`${baseURL}/api/users/${id}`, {
         headers: {
           Authorization: token
         }
@@ -105,7 +109,7 @@ export const getPosts = () => {
     dispatch({ type: GET_POSTS_START });
 
     return axios
-      .get('http://localhost:5000/api/posts/')
+      .get(`${baseURL}/api/posts/`)
       .then((res) => {
         // sort data by most recently created posts
         const payload = res.data.sort(
@@ -136,7 +140,7 @@ export const createPost = (post) => {
     const token = localStorage.getItem('token');
 
     return axios
-      .post('http://localhost:5000/api/posts/', post, {
+      .post(`${baseURL}/api/posts/`, post, {
         headers: {
           Authorization: token
         }
@@ -164,7 +168,7 @@ export const editPost = (post, id) => {
     const token = localStorage.getItem('token');
 
     return axios
-      .put(`http://localhost:5000/api/posts/${id}`, post, {
+      .put(`${baseURL}/api/posts/${id}`, post, {
         headers: {
           Authorization: token
         }
@@ -192,7 +196,7 @@ export const deletePost = (id) => {
     const token = localStorage.getItem('token');
 
     return axios
-      .delete(`http://localhost:5000/api/posts/${id}`, {
+      .delete(`${baseURL}/api/posts/${id}`, {
         headers: {
           Authorization: token
         }
@@ -222,7 +226,7 @@ export const getUserPosts = () => {
     const token = localStorage.getItem('token');
 
     return axios
-      .get(`http://localhost:5000/api/users/${id}/posts`, {
+      .get(`${baseURL}/api/users/${id}/posts`, {
         headers: {
           Authorization: token
         }
@@ -255,7 +259,7 @@ export function login(username, password) {
     dispatch({ type: LOGIN_START });
 
     return axios
-      .post('http://localhost:5000/api/auth/login/', {
+      .post(`${baseURL}/api/auth/login/`, {
         username,
         password
       })
@@ -295,7 +299,7 @@ export function register(user) {
     console.log(user);
 
     return axios
-      .post('http://localhost:5000/api/auth/register', { ...user })
+      .post(`${baseURL}/api/auth/register`, { ...user })
       .then((res) => {
         // store user in localStorage
         localStorage.setItem('token', res.data.token);
